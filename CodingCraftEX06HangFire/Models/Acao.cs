@@ -15,10 +15,16 @@ namespace CodingCraftEX06HangFire.Models
         public Guid EmpresaId { get; set; }
 
         [Required]
+        [Display(Name ="Código de negociação")]
         public string CodigoNegociacao { get; set; }
 
         [Required]
+        [Display(Name = "Código ISIN")]
         public string CodigoIsin { get; set; }
+
+        [Required]
+        [Display(Name = "Preço atual")]
+        public decimal Preco { get; set; }
 
         [ForeignKey(nameof(EmpresaId))]
         public virtual Empresa Empresa { get; set; }

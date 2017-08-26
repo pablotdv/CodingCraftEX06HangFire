@@ -1,13 +1,22 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using Z.EntityFramework.Plus;
+using System.Web;
+using Microsoft.AspNet.Identity;
+using EntityFramework.Triggers;
+using System.Data.Entity.Validation;
+using System.Threading;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CodingCraftEX06HangFire.Models
 {
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<Usuario, Grupo, Guid, UsuarioLogin, UsuarioGrupo, UsuarioIdentidade>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 
@@ -15,5 +24,75 @@ namespace CodingCraftEX06HangFire.Models
         {
             return new ApplicationDbContext();
         }
+
+        public override int SaveChanges()
+        {
+            int rowAffecteds = 0;
+            try
+            {
+                var audit = new Audit()
+                {
+                    CreatedBy = HttpContext.Current?.User.Identity.GetUserName() ?? "Migrations"
+                };
+                audit.PreSaveChanges(this);
+
+                // Coloque funções extras, como preenchimento automático de campos, aqui.
+                rowAffecteds = this.SaveChangesWithTriggers(base.SaveChanges);
+
+                audit.PostSaveChanges();
+                if (audit.Configuration.AutoSavePreAction != null)
+                {
+                    audit.Configuration.AutoSavePreAction(this, audit);
+                    base.SaveChanges();
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                var fullErrorMessage = string.Join("; ", errorMessages);
+                var exceptionsMessage = string.Concat(ex.Message, "Os erros de validações são: ", fullErrorMessage);
+                throw new DbEntityValidationException(exceptionsMessage, ex.EntityValidationErrors);
+            }
+
+            return rowAffecteds;
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            int rowAffecteds = 0;
+
+            try
+            {
+                var audit = new Audit();
+                audit.PreSaveChanges(this);
+
+                // Coloque funções extras, como preenchimento automático de campos, aqui.
+                rowAffecteds = await this.SaveChangesWithTriggersAsync(base.SaveChangesAsync, cancellationToken).ConfigureAwait(false);
+
+                audit.PostSaveChanges();
+                if (audit.Configuration.AutoSavePreAction != null)
+                {
+                    audit.Configuration.AutoSavePreAction(this, audit);
+                    await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var errorMessages = ex.EntityValidationErrors
+                    .SelectMany(x => x.ValidationErrors)
+                    .Select(x => x.ErrorMessage);
+
+                var fullErrorMessage = string.Join("; ", errorMessages);
+                var exceptionsMessage = string.Concat(ex.Message, "Os erros de validações são: ", fullErrorMessage);
+                throw new DbEntityValidationException(exceptionsMessage, ex.EntityValidationErrors);
+            }
+
+            return rowAffecteds;
+        }
+
+        public DbSet<Empresa> Empresas { get; set; }
     }
 }

@@ -13,12 +13,15 @@ namespace CodingCraftEX06HangFire.Models
         [Key]
         public Guid EmpresaId { get; set; }
 
+        [Display(Name = "Razão social")]
         public string RazaoSocial { get; set; }
 
+        [Display(Name = "Nome de pregão")]
         public string NomePregao { get; set; }
-
-        public string Segmento { get; set; }
-
+                
+        [Display(Name = "CNPJ")]
+        [MaxLength(14)]
+        [Required]
         public string Cnpj { get; set; }
 
         [InverseProperty(nameof(Acao.Empresa))]
