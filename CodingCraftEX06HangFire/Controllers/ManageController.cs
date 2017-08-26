@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.ViewModels.Manage;
+using CodingCraftEX06HangFire.Managers;
 
 namespace CodingCraftEX06HangFire.Controllers
 {

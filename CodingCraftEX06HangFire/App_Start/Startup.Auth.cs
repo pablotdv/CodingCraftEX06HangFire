@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.Managers;
 
 namespace CodingCraftEX06HangFire
 {
