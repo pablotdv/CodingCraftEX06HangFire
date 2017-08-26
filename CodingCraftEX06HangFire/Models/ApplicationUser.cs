@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodingCraftEX06HangFire.Models
 {
@@ -15,5 +17,11 @@ namespace CodingCraftEX06HangFire.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [InverseProperty(nameof(UsuarioAcao.Usuario))]
+        public ICollection<UsuarioAcao> UsuariosAcoes { get; set; }
+
+        [InverseProperty(nameof(Ordem.Usuario))]
+        public ICollection<Ordem> Ordens { get; set; }
     }
 }

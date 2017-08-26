@@ -201,8 +201,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Managers\ApplicationSignInManager.cs" />
     <Compile Include="Managers\ApplicationUserManager.cs" />
+    <Compile Include="Models\Acao.cs" />
+    <Compile Include="Models\AcaoHistorico.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Empresa.cs" />
+    <Compile Include="Models\Enums\OrdemTipo.cs" />
+    <Compile Include="Models\Ordem.cs" />
+    <Compile Include="Models\UsuarioAcao.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
