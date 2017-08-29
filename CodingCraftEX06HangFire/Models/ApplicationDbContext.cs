@@ -94,5 +94,6 @@ namespace CodingCraftEX06HangFire.Models
         }
 
         public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Acao> Acoes { get; set; }
     }
 }

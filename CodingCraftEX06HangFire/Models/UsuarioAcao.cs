@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +21,7 @@ namespace CodingCraftEX06HangFire.Models
 
         [ForeignKey(nameof(AcaoId))]
         public virtual Acao Acao { get; set; }
+
+        public ICollection<UsuarioAcaoHistorico> UsuariosAcoesHistoricos { get; set; }
     }
 }

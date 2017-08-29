@@ -9,6 +9,7 @@ namespace CodingCraftEX06HangFire
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            ConfigureHangFire(app);
         }
     }
 }

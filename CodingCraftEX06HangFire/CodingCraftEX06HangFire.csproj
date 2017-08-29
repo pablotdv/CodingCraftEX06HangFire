@@ -58,6 +58,15 @@
     <Reference Include="EntityFramework.TypedOriginalValues, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.TypedOriginalValues.1.0.1\lib\net40\EntityFramework.TypedOriginalValues.dll</HintPath>
     </Reference>
+    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.15\lib\net45\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.15\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -144,8 +153,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-    </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -214,6 +221,11 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\Startup.HangFire.cs" />
+    <Compile Include="Infraestrura\BackgroundJobs\AcoesJobs.cs" />
+    <Compile Include="Infraestrura\Bovespa\BovespaSelector.cs" />
+    <Compile Include="Infraestrura\Filtros\HangFireAuthorizationFilter.cs" />
+    <Compile Include="Managers\ApplicationRoleManager.cs" />
     <Compile Include="Managers\ApplicationSignInManager.cs" />
     <Compile Include="Managers\ApplicationUserManager.cs" />
     <Compile Include="Models\Acao.cs" />
@@ -241,6 +253,19 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\SmsService.cs" />
+    <Compile Include="ViewModels\BdinViewModel.cs" />
+    <Compile Include="ViewModels\Bovespa\AsMaisNegociadas.cs" />
+    <Compile Include="ViewModels\Bovespa\AsMaisNegociadasNoMercadoAVista.cs" />
+    <Compile Include="ViewModels\Bovespa\BDRsNaoPatrocinadosValorDeReferencia.cs" />
+    <Compile Include="ViewModels\Bovespa\Header.cs" />
+    <Compile Include="ViewModels\Bovespa\MaioresOscilacoesDasAcoesDoIbovespa.cs" />
+    <Compile Include="ViewModels\Bovespa\MaioresOscilacoesNoMercadoAVista.cs" />
+    <Compile Include="ViewModels\Bovespa\ResumoDiarioDeNegociacoesPorCadigoBDI.cs" />
+    <Compile Include="ViewModels\Bovespa\ResumoDiarioDeNegociacoesPorPapelMercado.cs" />
+    <Compile Include="ViewModels\Bovespa\ResumoDiarioDosIndices.cs" />
+    <Compile Include="ViewModels\Bovespa\ResumoDiarioDosIOPVs.cs" />
+    <Compile Include="ViewModels\Bovespa\TimeSpanConverter.cs" />
+    <Compile Include="ViewModels\Bovespa\Trailer.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\Manage\ConfigureTwoFactorViewModel.cs" />
