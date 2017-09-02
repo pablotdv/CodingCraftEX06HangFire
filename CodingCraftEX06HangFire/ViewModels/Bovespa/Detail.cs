@@ -10,7 +10,7 @@ namespace CodingCraftEX06HangFire.ViewModels.Bovespa
     /// <summary>
     /// REGISTRO - 01 - COTAÇÕES HISTÓRICAS POR PAPEL-MERCADO
     /// </summary>
-    [FixedLengthRecord]
+    [FixedLengthRecord(FixedMode.AllowMoreChars)]
     public class Detail
     {
         /// <summary>
@@ -103,7 +103,81 @@ namespace CodingCraftEX06HangFire.ViewModels.Bovespa
         [FieldConverter(typeof(MoneyConverter))]
         public decimal PreUlt;
 
-        [FieldFixedLength(245-121)]
-        public string resto;
+        /// <summary>
+        /// PREÇO DA MELHOR OFERTA DE COMPRA DO PAPELMERCADO
+        /// </summary>
+        [FieldFixedLength(13)]
+        [FieldConverter(typeof(MoneyConverter))]
+        public decimal PreOfc;
+
+        /// <summary>
+        /// PREÇO DA MELHOR OFERTA DE VENDA DO PAPELMERCADO
+        /// </summary>
+        [FieldFixedLength(13)]
+        [FieldConverter(typeof(MoneyConverter))]
+        public decimal PreOfv;
+
+        /// <summary>
+        /// NÚMERO DE NEGÓCIOS EFETUADOS COM O PAPEL- MERCADO NO PREGÃO
+        /// </summary>
+        [FieldFixedLength(5)]        
+        public int TotNeg;
+
+        /// <summary>
+        /// QUANTIDADE TOTAL DE TÍTULOS NEGOCIADOS NESTE PAPEL- MERCADO
+        /// </summary>
+        [FieldFixedLength(18)]
+        public int QuatTot;
+
+        /// <summary>
+        /// VOLUME TOTAL DE TÍTULOS NEGOCIADOS NESTE PAPEL- MERCADO
+        /// </summary>
+        [FieldFixedLength(18)]
+        [FieldConverter(typeof(MoneyConverter))]
+        public decimal VolTot;
+
+        /// <summary>
+        /// PREÇO DE EXERCÍCIO PARA O MERCADO DE OPÇÕES OU VALOR DO CONTRATO PARA O MERCADO DE TERMO SECUNDÁRIO
+        /// </summary>
+        [FieldFixedLength(13)]
+        [FieldConverter(typeof(MoneyConverter))]
+        public decimal PreExe;
+
+        /// <summary>
+        /// INDICADOR DE CORREÇÃO DE PREÇOS DE EXERCÍCIOS OU VALORES DE CONTRATO PARA OS MERCADOS DE OPÇÕES OU TERMO SECUNDÁRIO
+        /// </summary>
+        [FieldFixedLength(1)]
+        public int IndOpc;
+
+        /// <summary>
+        /// DATA DO VENCIMENTO PARA OS MERCADOS DE OPÇÕES OU TERMO SECUNDÁRIO
+        /// </summary>
+        [FieldFixedLength(8)]
+        [FieldConverter(ConverterKind.Date, "yyyyMMdd")]
+        public DateTime DataVen;
+
+        /// <summary>
+        /// FATOR DE COTAÇÃO DO PAPEL
+        /// </summary>
+        [FieldFixedLength(7)]
+        public int FatCot;
+
+        /// <summary>
+        /// PREÇO DE EXERCÍCIO EM PONTOS PARA OPÇÕES REFERENCIADAS EM DÓLAR OU VALOR DE CONTRATO EM PONTOS PARA TERMO SECUNDÁRIO
+        /// </summary>
+        [FieldFixedLength(13)]
+        public int PtoExe;
+
+        /// <summary>
+        /// CÓDIGO DO PAPEL NO SISTEMA ISIN OU CÓDIGO INTERNO DO PAPEL
+        /// </summary>
+        [FieldFixedLength(12)]
+        public string CodIsi;
+
+        /// <summary>
+        /// - NÚMERO DE DISTRIBUIÇÃO DO PAPEL
+        /// </summary>
+        [FieldFixedLength(3)]
+        public int DisMes;
     }
 }
