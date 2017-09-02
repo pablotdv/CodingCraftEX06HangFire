@@ -52,11 +52,11 @@
     <Reference Include="CoContra.net45, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CoContra.1.0.2\lib\net45\CoContra.net45.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.Triggers.net45, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.Triggers.6.0.8\lib\net45\EntityFramework.Triggers.net45.dll</HintPath>
+    <Reference Include="EntityFramework.Triggers, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Triggers.6.1.0\lib\net461\EntityFramework.Triggers.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.TypedOriginalValues, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.TypedOriginalValues.1.0.1\lib\net40\EntityFramework.TypedOriginalValues.dll</HintPath>
+    <Reference Include="EntityFramework.TypedOriginalValues, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.TypedOriginalValues.1.1.0\lib\net461\EntityFramework.TypedOriginalValues.dll</HintPath>
     </Reference>
     <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
       <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
@@ -185,8 +185,8 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.6.12.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.6.12\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
+    <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.6.17.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.6.17\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +224,7 @@
     <Compile Include="App_Start\Startup.HangFire.cs" />
     <Compile Include="Infraestrura\BackgroundJobs\AcoesJobs.cs" />
     <Compile Include="Infraestrura\Bovespa\BovespaSelector.cs" />
+    <Compile Include="Infraestrura\Bovespa\MoneyConverter.cs" />
     <Compile Include="Infraestrura\Filtros\HangFireAuthorizationFilter.cs" />
     <Compile Include="Managers\ApplicationRoleManager.cs" />
     <Compile Include="Managers\ApplicationSignInManager.cs" />
@@ -254,17 +255,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\SmsService.cs" />
     <Compile Include="ViewModels\BdinViewModel.cs" />
-    <Compile Include="ViewModels\Bovespa\AsMaisNegociadas.cs" />
-    <Compile Include="ViewModels\Bovespa\AsMaisNegociadasNoMercadoAVista.cs" />
-    <Compile Include="ViewModels\Bovespa\BDRsNaoPatrocinadosValorDeReferencia.cs" />
+    <Compile Include="ViewModels\Bovespa\Detail.cs" />
     <Compile Include="ViewModels\Bovespa\Header.cs" />
-    <Compile Include="ViewModels\Bovespa\MaioresOscilacoesDasAcoesDoIbovespa.cs" />
-    <Compile Include="ViewModels\Bovespa\MaioresOscilacoesNoMercadoAVista.cs" />
-    <Compile Include="ViewModels\Bovespa\ResumoDiarioDeNegociacoesPorCadigoBDI.cs" />
-    <Compile Include="ViewModels\Bovespa\ResumoDiarioDeNegociacoesPorPapelMercado.cs" />
-    <Compile Include="ViewModels\Bovespa\ResumoDiarioDosIndices.cs" />
-    <Compile Include="ViewModels\Bovespa\ResumoDiarioDosIOPVs.cs" />
-    <Compile Include="ViewModels\Bovespa\TimeSpanConverter.cs" />
     <Compile Include="ViewModels\Bovespa\Trailer.cs" />
     <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />

@@ -15,31 +15,17 @@ namespace CodingCraftEX06HangFire.ViewModels.Bovespa
         [FieldFixedLength(2)]
         public int TipoDeRegistro;
 
-        [FieldFixedLength(4)]
-        public string CodigoDoArquivo;
-
-        [FieldFixedLength(4)]
-        public string CodigoDoUsuario;
+        [FieldFixedLength(13)]
+        public string NomeDoArquivo;
 
         [FieldFixedLength(8)]
         public string CodigoDaOrigem;
-
-        [FieldFixedLength(4)]
-        public int CodigoDoDestino;
-
+                
         [FieldFixedLength(8)]
-        [FieldConverter(ConverterKind.Date, "YYYYMMDD")]
+        [FieldConverter(ConverterKind.Date, "yyyyMMdd")]
         public DateTime DataDaGeracaoDoArquivo;
-
-        [FieldFixedLength(8)]
-        [FieldConverter(ConverterKind.Date, "YYYYMMDD")]
-        public DateTime DataDoPregao;
-
-        [FieldFixedLength(4)]
-        [FieldConverter(typeof(TimeSpanConverter))]
-        public TimeSpan HoraDeGeracao;
-
-        [FieldFixedLength(308)]
+        
+        [FieldFixedLength(214)]
         public string Reserva;
     }
 }

@@ -24,7 +24,7 @@ namespace CodingCraftEX06HangFire.Controllers
 
             using (TextReader textReader = new StreamReader(viewModel.Arquivo.InputStream))
             {
-                var motor = new MultiRecordEngine(typeof(ViewModels.Bovespa.Header), typeof(ViewModels.Bovespa.ResumoDiarioDeNegociacoesPorPapelMercado));
+                var motor = new MultiRecordEngine(typeof(ViewModels.Bovespa.Header), typeof(ViewModels.Bovespa.Detail));
                 motor.RecordSelector = new RecordTypeSelector(Infraestrura.Bovespa.BovespaSelector.Selector);
                 var registros = motor.ReadStream(textReader);                
 
