@@ -222,6 +222,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\Startup.HangFire.cs" />
+    <Compile Include="Controllers\AcoesController.cs" />
+    <Compile Include="Controllers\AcoesHistoricosController.cs" />
+    <Compile Include="Controllers\BovespaController.cs" />
+    <Compile Include="Controllers\EmpresasController.cs" />
+    <Compile Include="Controllers\OrdensController.cs" />
+    <Compile Include="Controllers\UsuariosAcoesController.cs" />
+    <Compile Include="Controllers\UsuariosAcoesHistoricosController.cs" />
     <Compile Include="Infraestrura\BackgroundJobs\AcoesJobs.cs" />
     <Compile Include="Infraestrura\Bovespa\BovespaSelector.cs" />
     <Compile Include="Infraestrura\Bovespa\MoneyConverter.cs" />
@@ -254,6 +261,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Services\SmsService.cs" />
+    <Compile Include="ViewModels\AcoesImportarViewModel.cs" />
     <Compile Include="ViewModels\BdinViewModel.cs" />
     <Compile Include="ViewModels\Bovespa\Detail.cs" />
     <Compile Include="ViewModels\Bovespa\Header.cs" />
@@ -349,9 +357,41 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Acoes\Create.cshtml" />
+    <Content Include="Views\Acoes\Delete.cshtml" />
+    <Content Include="Views\Acoes\Details.cshtml" />
+    <Content Include="Views\Acoes\Edit.cshtml" />
+    <Content Include="Views\Acoes\Index.cshtml" />
+    <Content Include="Views\AcoesHistoricos\Create.cshtml" />
+    <Content Include="Views\AcoesHistoricos\Delete.cshtml" />
+    <Content Include="Views\AcoesHistoricos\Details.cshtml" />
+    <Content Include="Views\AcoesHistoricos\Edit.cshtml" />
+    <Content Include="Views\AcoesHistoricos\Index.cshtml" />
+    <Content Include="Views\Empresas\Create.cshtml" />
+    <Content Include="Views\Empresas\Delete.cshtml" />
+    <Content Include="Views\Empresas\Details.cshtml" />
+    <Content Include="Views\Empresas\Edit.cshtml" />
+    <Content Include="Views\Empresas\Index.cshtml" />
+    <Content Include="Views\Ordens\Create.cshtml" />
+    <Content Include="Views\Ordens\Delete.cshtml" />
+    <Content Include="Views\Ordens\Details.cshtml" />
+    <Content Include="Views\Ordens\Edit.cshtml" />
+    <Content Include="Views\Ordens\Index.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Create.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Delete.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Details.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Edit.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Index.cshtml" />
+    <Content Include="Views\UsuariosAcoesHistoricos\Create.cshtml" />
+    <Content Include="Views\UsuariosAcoesHistoricos\Delete.cshtml" />
+    <Content Include="Views\UsuariosAcoesHistoricos\Details.cshtml" />
+    <Content Include="Views\UsuariosAcoesHistoricos\Edit.cshtml" />
+    <Content Include="Views\UsuariosAcoesHistoricos\Index.cshtml" />
+    <Content Include="Views\Acoes\Importar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Bovespa\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

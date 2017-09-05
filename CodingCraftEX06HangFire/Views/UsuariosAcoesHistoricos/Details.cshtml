@@ -1,0 +1,26 @@
+﻿@model CodingCraftEX06HangFire.Models.UsuarioAcaoHistorico
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UsuarioAcaoHistorico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioAcao.UsuarioAcaoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioAcao.UsuarioAcaoId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UsuarioAcaoHistoricoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

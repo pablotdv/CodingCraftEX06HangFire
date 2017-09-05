@@ -1,0 +1,38 @@
+﻿@model CodingCraftEX06HangFire.ViewModels.AcoesImportarViewModel
+@{
+    ViewBag.Title = "Importar";
+}
+
+<h2>Importar</h2>
+
+@using (Html.BeginForm("Importar", "Acoes", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Acao</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Arquivo, "EmpresaId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Arquivo, new { type = "file", @class = "form-control", accept = ".txt" })
+                @Html.ValidationMessageFor(model => model.Arquivo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

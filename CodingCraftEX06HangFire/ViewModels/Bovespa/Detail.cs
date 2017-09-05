@@ -166,7 +166,8 @@ namespace CodingCraftEX06HangFire.ViewModels.Bovespa
         /// PREÇO DE EXERCÍCIO EM PONTOS PARA OPÇÕES REFERENCIADAS EM DÓLAR OU VALOR DE CONTRATO EM PONTOS PARA TERMO SECUNDÁRIO
         /// </summary>
         [FieldFixedLength(13)]
-        public int PtoExe;
+        [FieldConverter(typeof(MoneyConverter))]
+        public decimal PtoExe;
 
         /// <summary>
         /// CÓDIGO DO PAPEL NO SISTEMA ISIN OU CÓDIGO INTERNO DO PAPEL

@@ -1,0 +1,58 @@
+﻿@model CodingCraftEX06HangFire.Models.AcaoHistorico
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AcaoHistorico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Acao.CodigoNegociacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acao.CodigoNegociacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Preco)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Preco)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorVariacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorVariacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PercentualVariacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PercentualVariacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataHora)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataHora)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AcaoHistoricoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

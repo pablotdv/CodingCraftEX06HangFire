@@ -1,0 +1,34 @@
+﻿@model CodingCraftEX06HangFire.Models.UsuarioAcao
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UsuarioAcao</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Acao.CodigoNegociacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acao.CodigoNegociacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.Email)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UsuarioAcaoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
