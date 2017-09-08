@@ -127,7 +127,7 @@ namespace CodingCraftEX06HangFire.ViewModels.Bovespa
         /// QUANTIDADE TOTAL DE TÍTULOS NEGOCIADOS NESTE PAPEL- MERCADO
         /// </summary>
         [FieldFixedLength(18)]
-        public int QuatTot;
+        public Int64 QuatTot;
 
         /// <summary>
         /// VOLUME TOTAL DE TÍTULOS NEGOCIADOS NESTE PAPEL- MERCADO

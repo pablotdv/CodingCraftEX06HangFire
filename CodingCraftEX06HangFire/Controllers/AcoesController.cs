@@ -65,6 +65,16 @@ namespace CodingCraftEX06HangFire.Controllers
                         ModelState.AddModelError("", $"Linha {erro.LineNumber}, {erro.ExceptionInfo}.");
                     }
 
+                    foreach(var registro in registros)
+                    {
+                        if (registro is ViewModels.Bovespa.Detail)
+                        {
+                            var detail = registro as ViewModels.Bovespa.Detail;
+
+                            var acao = db.Acoes.FirstOrDefaultAsync(a => a.CodigoIsin == detail.CodIsi);
+                        }
+                    }
+
                     if (ModelState.IsValid)
 
                         return View(registros.ToList());
