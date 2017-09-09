@@ -1,28 +1,4 @@
-﻿@model CodingCraftEX06HangFire.ViewModels.BdinViewModel
-
-@{
-    ViewBag.Title = "Upload de Arquivo de BDIN";
-}
-
-<h2>Arquivo de Pedidos</h2>
-
-@using (Html.BeginForm("Importar", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Arquivo, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Arquivo, new { type = "file", @class = "form-control", accept = ".txt" })
-            @Html.ValidationMessageFor(m => m.Arquivo)
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Enviar" />
-        </div>
-    </div>
+﻿@{
+    ViewBag.Title = "Index";
 }
 

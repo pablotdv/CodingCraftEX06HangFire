@@ -47,7 +47,7 @@ namespace CodingCraftEX06HangFire.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Importar(AcoesImportarViewModel viewModel)
+        public async Task<ActionResult> Importar(AcoesImportarViewModel viewModel)
         {
             if (viewModel.Arquivo == null || viewModel.Arquivo.ContentLength <= 0) ModelState.AddModelError("", "Selecione um arquivo!");
 
@@ -64,19 +64,30 @@ namespace CodingCraftEX06HangFire.Controllers
                     {
                         ModelState.AddModelError("", $"Linha {erro.LineNumber}, {erro.ExceptionInfo}.");
                     }
-
-                    foreach(var registro in registros)
+                    var detalhes = registros.Where(a => a is ViewModels.Bovespa.Detail).Select(a => a as ViewModels.Bovespa.Detail).ToList();
+                    foreach (var detalhe in detalhes)
                     {
-                        if (registro is ViewModels.Bovespa.Detail)
-                        {
-                            var detail = registro as ViewModels.Bovespa.Detail;
 
-                            var acao = db.Acoes.FirstOrDefaultAsync(a => a.CodigoIsin == detail.CodIsi);
+                        var acao = await db.Acoes.FirstOrDefaultAsync(a => a.CodigoIsin == detalhe.CodIsi && a.CodigoNegociacao == detalhe.CodNeg);
+                        if (acao != null)
+                        {
+                            var ultimoHistorico = await db.AcoesHistoricos.Where(a => a.AcaoId == acao.AcaoId).OrderByDescending(a => a.DataHora).FirstOrDefaultAsync();
+
+                            db.AcoesHistoricos.Add(new AcaoHistorico()
+                            {
+                                AcaoHistoricoId = Guid.NewGuid(),
+                                AcaoId = acao.AcaoId,
+                                DataHora = detalhe.DataDoPregao,
+                                Preco = detalhe.PreUlt,
+                                ValorVariacao = detalhe.PreUlt - ultimoHistorico?.Preco ?? 0,
+                                PercentualVariacao = detalhe.PreUlt * 100 / ultimoHistorico?.Preco - 100 ?? 0,
+                            });
                         }
                     }
 
-                    if (ModelState.IsValid)
+                    await db.SaveChangesAsync();
 
+                    if (ModelState.IsValid)
                         return View(registros.ToList());
                 }
             }

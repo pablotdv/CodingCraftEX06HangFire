@@ -16,7 +16,7 @@ namespace CodingCraftEX06HangFire.Models
         public Guid AcaoId { get; set; }
 
         [Required]
-        [Display(Name ="Preço da ação R$")]
+        [Display(Name ="Preço da ação R$")]        
         public decimal Preco { get; set; }
 
         [Required]

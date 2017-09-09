@@ -16,22 +16,7 @@ namespace CodingCraftEX06HangFire.Controllers
         {
             return View();
         }
-
-        public ActionResult Importar(BdinViewModel viewModel)
-        {
-            if (!ModelState.IsValid) return View("Index");
-            if (viewModel.Arquivo == null || viewModel.Arquivo.ContentLength <= 0) return View("Index");
-
-            using (TextReader textReader = new StreamReader(viewModel.Arquivo.InputStream))
-            {
-                var motor = new MultiRecordEngine(typeof(ViewModels.Bovespa.Header), typeof(ViewModels.Bovespa.Detail));
-                motor.RecordSelector = new RecordTypeSelector(Infraestrura.Bovespa.BovespaSelector.Selector);
-                var registros = motor.ReadStream(textReader);                
-
-                return View(registros.ToList());
-            }
-        }
-
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

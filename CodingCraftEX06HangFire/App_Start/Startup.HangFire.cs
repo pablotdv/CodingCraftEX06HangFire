@@ -25,10 +25,9 @@ namespace CodingCraftEX06HangFire
             app.UseHangfireDashboard("/HangFire", options);
             app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate("acoes-flutuacao", () => AcoesJobs.FlutuacaoJob(), Cron.MinuteInterval(10));
-            BackgroundJob.Enqueue(() => AcoesJobs.FlutuacaoJob());
-
-
+            //RecurringJob.AddOrUpdate("acoes-flutuacao", () => AcoesJobs.FlutuacaoJob(), Cron.MinuteInterval(10));
+            //BackgroundJob.Enqueue(() => AcoesJobs.FlutuacaoJob());
+            RecurringJob.RemoveIfExists("acoes-flutuacao");
         }
     }
 }

@@ -44,7 +44,7 @@ namespace CodingCraftEX06HangFire.Tests.ViewModels.Bovespa
             Assert.AreEqual(14.88M, registro.PreMax);
             Assert.AreEqual(14.40M, registro.PreMin);
             Assert.AreEqual(14.58M, registro.PreMed);
-            Assert.AreEqual(14.60M, registro.PreUlt);
+            Assert.AreEqual(14.60F, registro.PreUlt);
             Assert.AreEqual(14.60M, registro.PreOfc);
             Assert.AreEqual(14.73M, registro.PreOfv);
             Assert.AreEqual(00087, registro.TotNeg);

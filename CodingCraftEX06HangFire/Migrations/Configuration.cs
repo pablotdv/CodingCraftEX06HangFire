@@ -118,7 +118,7 @@ namespace CodingCraftEX06HangFire.Migrations
                 {
                     AcaoHistoricoId = Guid.NewGuid(),
                     DataHora = DateTime.Now,
-                    Preco = ((decimal)new Random(DateTime.Now.Millisecond).Next(100, 9999)) / 100
+                    Preco = (decimal)new Random(DateTime.Now.Millisecond).Next(100, 9999) / 100
                 });
                 empresa.Acoes.Add(acao);
                 Thread.Sleep(1);

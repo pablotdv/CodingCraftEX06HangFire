@@ -19,10 +19,10 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
                 var acoes = await db.Acoes.Include(a => a.AcoesHistoricos).ToListAsync();
 
                 foreach (var acao in acoes)
-                {                    
+                {
                     decimal random = new Random(DateTime.Now.Millisecond).Next(-9999, 9999);
                     decimal percentualVariacao = random / 1000;
-                    var valorVariacao = acao.Preco * (percentualVariacao / 100);
+                    var valorVariacao = (decimal)acao.Preco * (percentualVariacao / 100);
                     var preco = acao.Preco + valorVariacao;
                     acao.AcoesHistoricos.Add(new AcaoHistorico()
                     {
