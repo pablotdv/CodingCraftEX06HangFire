@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
+using EntityFramework.DynamicFilters;
 
 namespace CodingCraftEX06HangFire.Models
 {
@@ -93,13 +94,23 @@ namespace CodingCraftEX06HangFire.Models
             return rowAffecteds;
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Filter("UsuariosOrdens",
+                (Ordem o, Guid usuarioId) => o.UsuarioId == usuarioId,
+                () => Guid.Parse(HttpContext.Current.User.Identity.GetUserId()));
+            modelBuilder.EnableFilter("UsuariosOrdens", () => HttpContext.Current.User != null);            
+        }
+
         public DbSet<Empresa> Empresas { get; set; }
 
         public DbSet<Acao> Acoes { get; set; }
 
         public DbSet<AcaoHistorico> AcoesHistoricos { get; set; }
 
-        public DbSet<Ordem> Ordems { get; set; }        
+        public DbSet<Ordem> Ordems { get; set; }
 
         public DbSet<UsuarioAcao> UsuariosAcoes { get; set; }
 

@@ -52,6 +52,9 @@
     <Reference Include="CoContra, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CoContra.1.1.0\lib\net461\CoContra.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework.DynamicFilters, Version=2.10.0.0, Culture=neutral, PublicKeyToken=146423a1b8d60775, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.DynamicFilters.2.10.0\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.Triggers, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.Triggers.6.1.0\lib\net461\EntityFramework.Triggers.dll</HintPath>
     </Reference>
@@ -303,6 +306,7 @@
     <Compile Include="ViewModels\Account\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\Manage\SetPasswordViewModel.cs" />
     <Compile Include="ViewModels\Manage\VerifyPhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\OrdensViewModel.cs" />
     <Compile Include="ViewModels\PagedListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

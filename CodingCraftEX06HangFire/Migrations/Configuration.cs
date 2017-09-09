@@ -63,7 +63,7 @@ namespace CodingCraftEX06HangFire.Migrations
                 Empresa(context, "08795211000170", "MAESTRO LOCADORA DE VEICULOS S.A.", "MAESTROLOC", new Dictionary<string, string> { { "BRMSROACNOR7", "MSRO3" } }),
                 Empresa(context, "47960950000121", "MAGAZINE LUIZA S.A.", "MAGAZ LUIZA", new Dictionary<string, string> { { "BRMGLUACNOR2", "MGLU3" } }),
                 Empresa(context, "61189288000189", "MARISA LOJAS S.A.", "LOJAS MARISA", new Dictionary<string, string> { { "BRAMARACNOR4", "AMAR3" } }),
-                Empresa(context, "61067161000197", "NADIR FIGUEIREDO IND E COM S.A.", "NADIR FIGUEI", new Dictionary<string, string> { { "BRNAFGACNOR4", "NAFG3" } , { "BRNAFGACNPR1", "NAFG4" } }),
+                Empresa(context, "61067161000197", "NADIR FIGUEIREDO IND E COM S.A.", "NADIR FIGUEI", new Dictionary<string, string> { { "BRNAFGACNOR4", "NAFG3" }, { "BRNAFGACNPR1", "NAFG4" } }),
                 Empresa(context, "51128999000190", "NUTRIPLANT INDUSTRIA E COMERCIO S.A.", "NUTRIPLANT", new Dictionary<string, string> { { "BRNUTRACNOR0", "NUTR3" } }),
 
                 Empresa(context, "76535764000143", "OI S.A.", "OI", new Dictionary<string, string> { { "BROIBRACNOR1", "OIBR3" }, { "BROIBRACNPR8", "OIBR4" } })
@@ -85,7 +85,22 @@ namespace CodingCraftEX06HangFire.Migrations
             {
                 var store = new UserStore<Usuario, Grupo, Guid, UsuarioLogin, UsuarioGrupo, UsuarioIdentidade>(context);
                 var manager = new UserManager<Usuario, Guid>(store);
-                var user = new Usuario { Id = Guid.NewGuid(), UserName = userName, Email = userName, EmailConfirmed = true };
+                var user = new Usuario { Id = Guid.NewGuid(), UserName = userName, Email = userName, EmailConfirmed = true, Ordens = new List<Ordem>() };
+
+                var acoes = context.Acoes.OrderBy(a => Guid.NewGuid()).Take(10);
+
+                foreach (var acao in acoes)
+                {
+                    user.Ordens.Add(new Ordem()
+                    {
+                        OrdemId = Guid.NewGuid(),
+                        AcaoId = acao.AcaoId,
+                        Preco = acao.Preco,
+                        Quantidade = new Random(DateTime.Now.Millisecond).Next(1, 9),
+                        Tipo = Models.Enums.OrdemTipo.Compra,
+                    });
+                    Thread.Sleep(1);
+                }
 
                 manager.Create(user, senha);
                 if (!string.IsNullOrWhiteSpace(role))
