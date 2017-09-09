@@ -11,18 +11,28 @@ using CodingCraftEX06HangFire.Models;
 using CodingCraftEX06HangFire.ViewModels;
 using System.IO;
 using FileHelpers;
+using PagedList.EntityFramework;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
+    [Authorize(Roles = "Administradores")]
     public class AcoesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Acoes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(AcoesViewModel viewModel)
         {
-            var acoes = db.Acoes.Include(a => a.Empresa);
-            return View(await acoes.ToListAsync());
+            var query = db.Acoes.Include(a => a.Empresa).AsQueryable();
+
+            if (!String.IsNullOrWhiteSpace(viewModel.CodigoNegociacao))
+            {                
+                query = query.Where(a => a.CodigoNegociacao.Contains(viewModel.CodigoNegociacao));
+            }
+
+            viewModel.Resultados = await query.OrderBy(a => a.CodigoNegociacao).ToPagedListAsync(viewModel.Pagina, viewModel.TamanhoPagina);
+
+            return View(viewModel);
         }
 
         // GET: Acoes/Details/5
@@ -64,31 +74,34 @@ namespace CodingCraftEX06HangFire.Controllers
                     {
                         ModelState.AddModelError("", $"Linha {erro.LineNumber}, {erro.ExceptionInfo}.");
                     }
-                    var detalhes = registros.Where(a => a is ViewModels.Bovespa.Detail).Select(a => a as ViewModels.Bovespa.Detail).ToList();
-                    foreach (var detalhe in detalhes)
-                    {
-
-                        var acao = await db.Acoes.FirstOrDefaultAsync(a => a.CodigoIsin == detalhe.CodIsi && a.CodigoNegociacao == detalhe.CodNeg);
-                        if (acao != null)
-                        {
-                            var ultimoHistorico = await db.AcoesHistoricos.Where(a => a.AcaoId == acao.AcaoId).OrderByDescending(a => a.DataHora).FirstOrDefaultAsync();
-
-                            db.AcoesHistoricos.Add(new AcaoHistorico()
-                            {
-                                AcaoHistoricoId = Guid.NewGuid(),
-                                AcaoId = acao.AcaoId,
-                                DataHora = detalhe.DataDoPregao,
-                                Preco = detalhe.PreUlt,
-                                ValorVariacao = detalhe.PreUlt - ultimoHistorico?.Preco ?? 0,
-                                PercentualVariacao = detalhe.PreUlt * 100 / ultimoHistorico?.Preco - 100 ?? 0,
-                            });
-                        }
-                    }
-
-                    await db.SaveChangesAsync();
 
                     if (ModelState.IsValid)
-                        return View(registros.ToList());
+                    {
+                        var detalhes = registros.Where(a => a is ViewModels.Bovespa.Detail).Select(a => a as ViewModels.Bovespa.Detail).ToList();
+                        foreach (var detalhe in detalhes)
+                        {
+
+                            var acao = await db.Acoes.FirstOrDefaultAsync(a => a.CodigoIsin == detalhe.CodIsi && a.CodigoNegociacao == detalhe.CodNeg);
+                            if (acao != null)
+                            {
+                                var ultimoHistorico = await db.AcoesHistoricos.Where(a => a.AcaoId == acao.AcaoId).OrderByDescending(a => a.DataHora).FirstOrDefaultAsync();
+
+                                db.AcoesHistoricos.Add(new AcaoHistorico()
+                                {
+                                    AcaoHistoricoId = Guid.NewGuid(),
+                                    AcaoId = acao.AcaoId,
+                                    DataHora = detalhe.DataDoPregao,
+                                    Preco = detalhe.PreUlt,
+                                    ValorVariacao = detalhe.PreUlt - ultimoHistorico?.Preco ?? 0,
+                                    PercentualVariacao = detalhe.PreUlt * 100 / ultimoHistorico?.Preco - 100 ?? 0,
+                                });
+                            }
+                        }
+
+                        await db.SaveChangesAsync();
+
+                        return RedirectToAction("Index", "AcoesHistoricos", new ViewModels.AcoesHistoricosViewModel { DataOperacao = detalhes.FirstOrDefault()?.DataDoPregao });
+                    }
                 }
             }
             return View(viewModel);

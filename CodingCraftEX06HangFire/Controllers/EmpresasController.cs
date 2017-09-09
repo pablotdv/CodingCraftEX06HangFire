@@ -8,17 +8,29 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.ViewModels;
+using PagedList.EntityFramework;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
+    [Authorize(Roles = "Administradores")]
     public class EmpresasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Empresas
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(EmpresasViewModel viewModel)
         {
-            return View(await db.Empresas.ToListAsync());
+            var query = db.Empresas.AsQueryable();
+
+            if (!String.IsNullOrWhiteSpace(viewModel.RazaoSocial))
+            {
+                query = query.Where(a => a.RazaoSocial.Contains(viewModel.RazaoSocial));
+            }
+
+            viewModel.Resultados = await query.OrderBy(a => a.RazaoSocial).ToPagedListAsync(viewModel.Pagina, viewModel.TamanhoPagina);
+
+            return View(viewModel);
         }
 
         // GET: Empresas/Details/5

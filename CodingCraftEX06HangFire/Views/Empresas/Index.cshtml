@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodingCraftEX06HangFire.Models.Empresa>
+﻿@model CodingCraftEX06HangFire.ViewModels.EmpresasViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -9,37 +9,62 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+@using (Html.BeginForm("Index", "Empresas", FormMethod.Get))
+{
+    <div class="form-horizontal">
+        <h4>Filtros</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RazaoSocial, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RazaoSocial, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RazaoSocial, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Pesquisar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-bordered table-responsive table-striped table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RazaoSocial)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NomePregao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cnpj)
-        </th>
+        <th>Razão social</th>
+        <th>Nome de pregão</th>
+        <th>CNPJ</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RazaoSocial)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NomePregao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cnpj)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EmpresaId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EmpresaId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EmpresaId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Resultados)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazaoSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomePregao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnpj)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmpresaId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EmpresaId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EmpresaId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@Html.PagedListPager(Model.Resultados, page => Url.Action("Index",
+    new CodingCraftEX06HangFire.ViewModels.EmpresasViewModel()
+    {
+        Pagina = page,
+        RazaoSocial = Model.RazaoSocial
+    }),
+    PagedListRenderOptions.Classic)

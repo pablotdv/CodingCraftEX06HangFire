@@ -8,18 +8,30 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.ViewModels;
+using PagedList.EntityFramework;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
+    [Authorize(Roles = "Administradores")]
     public class AcoesHistoricosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: AcoesHistoricos
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(AcoesHistoricosViewModel viewModel)
         {
-            var acaoHistoricoes = db.AcoesHistoricos.Include(a => a.Acao);
-            return View(await acaoHistoricoes.ToListAsync());
+            var query = db.AcoesHistoricos.AsQueryable();
+
+            if (viewModel.DataOperacao.HasValue)
+            {
+                var dataOperacao = viewModel.DataOperacao.Value.Date;
+                query = query.Where(a => DbFunctions.TruncateTime(a.DataHora) == dataOperacao);
+            }
+
+            viewModel.Resultados = await query.OrderBy(a => a.DataHora).ToPagedListAsync(viewModel.Pagina, viewModel.TamanhoPagina);
+
+            return View(viewModel);
         }
 
         // GET: AcoesHistoricos/Details/5

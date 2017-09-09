@@ -11,6 +11,7 @@ using CodingCraftEX06HangFire.Models;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
+    [Authorize]
     public class UsuariosAcoesHistoricosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

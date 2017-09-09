@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodingCraftEX06HangFire.Models.Acao>
+﻿@model CodingCraftEX06HangFire.ViewModels.AcoesViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -7,46 +7,70 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.ActionLink("Importar", "Importar")
+    @Html.ActionLink("Create New", "Create") | @Html.ActionLink("Importar", "Importar")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Empresa.RazaoSocial)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoNegociacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CodigoIsin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Preco)
-        </th>
-        <th></th>
-    </tr>
+@using (Html.BeginForm("Index", "Acoes", FormMethod.Get))
+{
+    <div class="form-horizontal">
+        <h4>Filtros</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodigoNegociacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CodigoNegociacao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CodigoNegociacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Empresa.RazaoSocial)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoNegociacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CodigoIsin)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Preco)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AcaoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AcaoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AcaoId })
-        </td>
-    </tr>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Pesquisar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
 
+<table class="table table-bordered table-responsive table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Razão social</th>
+            <th>Código de negociação</th>
+            <th>Código ISIN</th>
+            <th>Preço R$</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Resultados)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empresa.RazaoSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoNegociacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoIsin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Preco)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AcaoId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AcaoId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AcaoId })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@Html.PagedListPager(Model.Resultados, page => Url.Action("Index",
+    new CodingCraftEX06HangFire.ViewModels.AcoesViewModel()
+    {
+        Pagina = page,
+        CodigoNegociacao = Model.CodigoNegociacao
+    }),
+    PagedListRenderOptions.Classic)

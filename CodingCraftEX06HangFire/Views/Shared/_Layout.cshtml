@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using StackExchange.Profiling
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -22,8 +23,22 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Administradores"))
+                        {
+                            <li>@Html.ActionLink("Empresas", "Index", "Empresas")</li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ações<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Index", "Index", "Acoes")</li>
+                                    <li>@Html.ActionLink("Histórico", "Index", "AcoesHistoricos")</li>
+                                </ul>
+                            </li>
+                        }
+
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -40,5 +55,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    @MiniProfiler.RenderIncludes()
 </body>
 </html>

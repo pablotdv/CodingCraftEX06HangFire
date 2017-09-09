@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodingCraftEX06HangFire.Models.AcaoHistorico>
+﻿@model CodingCraftEX06HangFire.ViewModels.AcoesHistoricosViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -8,50 +8,63 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Importar", "Importar", "Acoes")
 </p>
-<table class="table">
+
+@using (Html.BeginForm("Index", "AcoesHistoricos", FormMethod.Get))
+{
+    <div class="form-horizontal">
+        <h4>Filtros</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataOperacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataOperacao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DataOperacao, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Pesquisar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-bordered table-responsive table-striped table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Acao.CodigoNegociacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Preco)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ValorVariacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PercentualVariacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataHora)
-        </th>
+        <th>Data/hora</th>
+        <th>Código de negociação</th>
+        <th>Preço R$</th>
+        <th>Variação R$</th>
+        <th>Variação %</th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Preco)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ValorVariacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PercentualVariacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataHora)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AcaoHistoricoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AcaoHistoricoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AcaoHistoricoId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.Resultados)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.DataHora)</td>
+            <td>@Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)</td>
+            <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+            <td>@Html.DisplayFor(modelItem => item.ValorVariacao)</td>
+            <td>@Html.DisplayFor(modelItem => item.PercentualVariacao)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AcaoHistoricoId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AcaoHistoricoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AcaoHistoricoId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@Html.PagedListPager(Model.Resultados, page => Url.Action("Index",
+    new CodingCraftEX06HangFire.ViewModels.AcoesHistoricosViewModel()
+    {
+        Pagina = page,
+        DataOperacao = Model.DataOperacao
+    }),
+    PagedListRenderOptions.Classic)
