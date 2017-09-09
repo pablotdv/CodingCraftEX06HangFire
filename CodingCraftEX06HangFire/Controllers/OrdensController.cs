@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.ViewModels;
+using PagedList.EntityFramework;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
@@ -17,10 +19,18 @@ namespace CodingCraftEX06HangFire.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Ordens
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(OrdensViewModel viewModel)
         {
-            var ordems = db.Ordems.Include(o => o.Acao).Include(o => o.Usuario);
-            return View(await ordems.ToListAsync());
+            var query = db.Ordems.Include(o => o.Acao).Include(o => o.Usuario);
+
+            if (viewModel.Tipo.HasValue)
+            {
+                query = query.Where(a => a.Tipo == viewModel.Tipo);
+            }
+
+            viewModel.Resultados = await query.OrderBy(a => a.DataHora).ToPagedListAsync(viewModel.Pagina, viewModel.TamanhoPagina);
+
+            return View(viewModel);
         }
 
         // GET: Ordens/Details/5

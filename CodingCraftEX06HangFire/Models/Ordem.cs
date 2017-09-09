@@ -1,6 +1,7 @@
 ﻿using CodingCraftEX06HangFire.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace CodingCraftEX06HangFire.Models
 
         [Required]
         public OrdemTipo Tipo { get; set; }
+
+        [DisplayName("Data/hora")]
+        public DateTime DataHora { get; set; }
 
         [Required]
         public decimal Preco { get; set; }
@@ -34,5 +38,6 @@ namespace CodingCraftEX06HangFire.Models
 
         [ForeignKey(nameof(UsuarioId))]
         public virtual Usuario Usuario { get; set; }
+        
     }
 }
