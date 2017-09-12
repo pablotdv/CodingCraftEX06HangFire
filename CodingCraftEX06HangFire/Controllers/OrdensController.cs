@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using CodingCraftEX06HangFire.Models;
 using CodingCraftEX06HangFire.ViewModels;
 using PagedList.EntityFramework;
+using CodingCraftEX06HangFire.Models.Enums;
+using Microsoft.AspNet.Identity;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
@@ -49,11 +51,21 @@ namespace CodingCraftEX06HangFire.Controllers
         }
 
         // GET: Ordens/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create(OrdemTipo? tipo)
         {
-            ViewBag.AcaoId = new SelectList(db.Acoes, "AcaoId", "CodigoNegociacao");
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            await AcoesViewBag();
+            Ordem model = null;
+            if (tipo.HasValue)
+                model = new Ordem() { Tipo = tipo.Value };
+            return View(model);
+        }
+
+        private async Task AcoesViewBag()
+        {
+            var acoes = (await db.Acoes.OrderBy(a => a.CodigoNegociacao)
+                            .ToListAsync())
+                            .Select(a => new { AcaoId = a.AcaoId, Text = $"{a.CodigoNegociacao} ({a.Preco.ToString("N2")})" });
+            ViewBag.AcaoId = new SelectList(acoes, "AcaoId", "Text");
         }
 
         // POST: Ordens/Create
@@ -61,18 +73,18 @@ namespace CodingCraftEX06HangFire.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "OrdemId,Tipo,Preco,Quantidade,AcaoId,UsuarioId")] Ordem ordem)
+        public async Task<ActionResult> Create([Bind(Include = "OrdemId,Tipo,Preco,Quantidade,AcaoId")] Ordem ordem)
         {
             if (ModelState.IsValid)
             {
                 ordem.OrdemId = Guid.NewGuid();
+                ordem.UsuarioId = Guid.Parse(User.Identity.GetUserId());
+                ordem.DataHora = DateTime.Now;
                 db.Ordems.Add(ordem);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.AcaoId = new SelectList(db.Acoes, "AcaoId", "CodigoNegociacao", ordem.AcaoId);
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", ordem.UsuarioId);
+            await AcoesViewBag();
             return View(ordem);
         }
 
@@ -88,8 +100,7 @@ namespace CodingCraftEX06HangFire.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AcaoId = new SelectList(db.Acoes, "AcaoId", "CodigoNegociacao", ordem.AcaoId);
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", ordem.UsuarioId);
+            await AcoesViewBag();
             return View(ordem);
         }
 
@@ -106,8 +117,7 @@ namespace CodingCraftEX06HangFire.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.AcaoId = new SelectList(db.Acoes, "AcaoId", "CodigoNegociacao", ordem.AcaoId);
-            ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", ordem.UsuarioId);
+            await AcoesViewBag();
             return View(ordem);
         }
 

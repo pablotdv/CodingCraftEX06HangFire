@@ -7,7 +7,10 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <div class="btn-group">
+        @Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
+        @Html.ActionLink("Compra", "Create", routeValues: new { Tipo = CodingCraftEX06HangFire.Models.Enums.OrdemTipo.Compra }, htmlAttributes: new { @class = "btn btn-default" })
+    </div>
 </p>
 @using (Html.BeginForm("Index", "Empresas", FormMethod.Get))
 {

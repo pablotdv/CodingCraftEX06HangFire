@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CodingCraftEX06HangFire.Models
 {
@@ -18,6 +20,12 @@ namespace CodingCraftEX06HangFire.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [DisplayName("Dinheiro R$")]
+        public decimal Dinheiro { get; set; }
+
+        [DisplayName("Saldo R$")]
+        public decimal Saldo { get; set; }
 
         [InverseProperty(nameof(UsuarioAcao.Usuario))]
         public ICollection<UsuarioAcao> UsuariosAcoes { get; set; }

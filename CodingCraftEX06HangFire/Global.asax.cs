@@ -1,4 +1,5 @@
-﻿using StackExchange.Profiling;
+﻿using CodingCraftEX06HangFire.Infraestrura.ModelBinders;
+using StackExchange.Profiling;
 using StackExchange.Profiling.EntityFramework6;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,9 @@ namespace CodingCraftEX06HangFire
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MiniProfilerEF6.Initialize();
+
+            ModelBinders.Binders.Add(typeof(decimal), new DecimalModelBinder());
+            ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
         }
 
         protected void Application_BeginRequest()

@@ -19,5 +19,10 @@ namespace CodingCraftEX06HangFire.ViewModels.Account
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Currency)]
+        [Display(Name = "Dinheiro")]
+        public decimal Dinheiro { get; set; }
     }
 }

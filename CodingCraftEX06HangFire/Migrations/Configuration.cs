@@ -85,7 +85,7 @@ namespace CodingCraftEX06HangFire.Migrations
             {
                 var store = new UserStore<Usuario, Grupo, Guid, UsuarioLogin, UsuarioGrupo, UsuarioIdentidade>(context);
                 var manager = new UserManager<Usuario, Guid>(store);
-                var user = new Usuario { Id = Guid.NewGuid(), UserName = userName, Email = userName, EmailConfirmed = true, Ordens = new List<Ordem>() };
+                var user = new Usuario { Id = Guid.NewGuid(), UserName = userName, Email = userName, EmailConfirmed = true, Dinheiro = 1000, Saldo = 1000, Ordens = new List<Ordem>() };
 
                 var acoes = context.Acoes.OrderBy(a => Guid.NewGuid()).Take(10);
 
@@ -94,6 +94,7 @@ namespace CodingCraftEX06HangFire.Migrations
                     user.Ordens.Add(new Ordem()
                     {
                         OrdemId = Guid.NewGuid(),
+                        DataHora = DateTime.Now,
                         AcaoId = acao.AcaoId,
                         Preco = acao.Preco,
                         Quantidade = new Random(DateTime.Now.Millisecond).Next(1, 9),
@@ -101,6 +102,8 @@ namespace CodingCraftEX06HangFire.Migrations
                     });
                     Thread.Sleep(1);
                 }
+
+                user.Saldo = user.Dinheiro - user.Ordens.Sum(a => a.Total);
 
                 manager.Create(user, senha);
                 if (!string.IsNullOrWhiteSpace(role))
