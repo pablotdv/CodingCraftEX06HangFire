@@ -17,7 +17,11 @@ namespace CodingCraftEX06HangFire.Models
         public Guid AcaoId { get; set; }
 
         public decimal Preco { get; set; }
-        
+
+        public int Quantidade { get; set; }
+
+        public decimal Total { get; set; }
+
         public bool Ativo { get; set; }
 
         public DateTime Compra { get; set; }
@@ -32,5 +36,6 @@ namespace CodingCraftEX06HangFire.Models
 
         [InverseProperty(nameof(UsuarioAcaoHistorico.UsuarioAcao))]
         public ICollection<UsuarioAcaoHistorico> UsuariosAcoesHistoricos { get; set; }
+        
     }
 }

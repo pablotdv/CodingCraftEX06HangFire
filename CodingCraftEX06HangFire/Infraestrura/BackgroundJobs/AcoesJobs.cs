@@ -15,9 +15,8 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
     {
         public static async Task MecanicaJob()
         {
-            using (ApplicationDbContext db = new ApplicationDbContext())
+            using (BaseContext db = new BaseContext())
             {
-                db.DisableFilter("UsuariosOrdens");
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     await AcoesFlutuacoes(db);
@@ -26,39 +25,41 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
 
                     scope.Complete();
                 }
-                db.EnableFilter("UsuariosOrdens");
             }
         }
 
-        private static async Task AcoesCompras(ApplicationDbContext db)
+        private static async Task AcoesCompras(BaseContext db)
         {
             Random random = new Random(Environment.TickCount);
             var percentual = random.Next(0, 100);
 
             var compras = await db.Ordens
                 .Where(a => a.Tipo == OrdemTipo.Compra)
-                .Where(a => db.UsuariosAcoes.Any(b => b.UsuarioId == a.UsuarioId && b.AcaoId == a.AcaoId && b.Ativo))
+                .Where(a => !db.UsuariosAcoes.Any(b => b.UsuarioId == a.UsuarioId && b.AcaoId == a.AcaoId && b.Ativo))
                 .Where(a => a.Chance >= percentual)
                 .ToListAsync();
 
-            foreach(var compra in compras)
+            foreach (var compra in compras)
             {
                 compra.Ativo = false;
 
-                db.UsuariosAcoes.Add(new UsuarioAcao() {
+                db.UsuariosAcoes.Add(new UsuarioAcao()
+                {
                     UsuarioAcaoId = Guid.NewGuid(),
                     AcaoId = compra.AcaoId,
                     Ativo = true,
                     Compra = DateTime.Now,
                     Preco = compra.Preco,
-                    UsuarioId = compra.UsuarioId
-                });                
+                    UsuarioId = compra.UsuarioId,
+                    Quantidade = compra.Quantidade,
+                    Total = compra.Preco * compra.Quantidade
+                });
             }
 
             await db.SaveChangesAsync();
         }
 
-        private static async Task AcoesFlutuacoes(ApplicationDbContext db)
+        private static async Task AcoesFlutuacoes(BaseContext db)
         {
             var acoes = await db.Acoes.Include(a => a.AcoesHistoricos).ToListAsync();
 

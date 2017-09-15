@@ -259,6 +259,7 @@
     <Compile Include="Models\Acao.cs" />
     <Compile Include="Models\AcaoHistorico.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\BaseContext.cs" />
     <Compile Include="Models\Empresa.cs" />
     <Compile Include="Models\Enums\OrdemTipo.cs" />
     <Compile Include="Models\Grupo.cs" />
