@@ -44,35 +44,20 @@ namespace CodingCraftEX06HangFire.Models
         [ForeignKey(nameof(UsuarioId))]
         public virtual Usuario Usuario { get; set; }
 
+        public bool Ativo { get; set; }
+        public decimal Chance { get; set; }
+
         static Ordem()
         {
             Triggers<Ordem>.Inserting += action =>
             {
-                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;
-                if (action.Entity.Usuario != null)
-                {
-                    action.Entity.Usuario.Saldo = action.Entity.Usuario.Dinheiro - action.Entity.Total;
-                }
-                else
-                {
-                    var user = ((ApplicationDbContext)action.Context).Users.FirstOrDefault(a=>a.Id == action.Entity.UsuarioId);
-                    user.Saldo = action.Entity.Usuario.Dinheiro - action.Entity.Total;
-                }
+                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;                
             };
+
             Triggers<Ordem>.Updating += action =>
             {
-                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;
-                if (action.Entity.Usuario != null)
-                {
-                    action.Entity.Usuario.Saldo = action.Entity.Usuario.Dinheiro - action.Entity.Total;
-                }
-                else
-                {
-                    var user = ((ApplicationDbContext)action.Context).Users.Find(action.Entity.UsuarioId);
-                    user.Saldo = action.Entity.Usuario.Dinheiro - action.Entity.Total;
-                }
+                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;                
             };
         }
-
     }
 }

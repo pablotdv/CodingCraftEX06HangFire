@@ -23,7 +23,7 @@ namespace CodingCraftEX06HangFire.Controllers
         // GET: Ordens
         public async Task<ActionResult> Index(OrdensViewModel viewModel)
         {
-            var query = db.Ordems.Include(o => o.Acao).Include(o => o.Usuario);
+            var query = db.Ordens.Include(o => o.Acao).Include(o => o.Usuario);
 
             if (viewModel.Tipo.HasValue)
             {
@@ -42,7 +42,7 @@ namespace CodingCraftEX06HangFire.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ordem ordem = await db.Ordems.FindAsync(id);
+            Ordem ordem = await db.Ordens.FindAsync(id);
             if (ordem == null)
             {
                 return HttpNotFound();
@@ -80,7 +80,7 @@ namespace CodingCraftEX06HangFire.Controllers
                 ordem.OrdemId = Guid.NewGuid();
                 ordem.UsuarioId = Guid.Parse(User.Identity.GetUserId());
                 ordem.DataHora = DateTime.Now;
-                db.Ordems.Add(ordem);
+                db.Ordens.Add(ordem);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -95,7 +95,7 @@ namespace CodingCraftEX06HangFire.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ordem ordem = await db.Ordems.FindAsync(id);
+            Ordem ordem = await db.Ordens.FindAsync(id);
             if (ordem == null)
             {
                 return HttpNotFound();
@@ -128,7 +128,7 @@ namespace CodingCraftEX06HangFire.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ordem ordem = await db.Ordems.FindAsync(id);
+            Ordem ordem = await db.Ordens.FindAsync(id);
             if (ordem == null)
             {
                 return HttpNotFound();
@@ -141,8 +141,8 @@ namespace CodingCraftEX06HangFire.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
-            Ordem ordem = await db.Ordems.FindAsync(id);
-            db.Ordems.Remove(ordem);
+            Ordem ordem = await db.Ordens.FindAsync(id);
+            db.Ordens.Remove(ordem);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

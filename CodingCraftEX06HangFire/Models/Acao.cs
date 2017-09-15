@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileHelpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,6 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CodingCraftEX06HangFire.Models
 {
     [Table("Acoes")]
+    [DelimitedRecord(";")]
     public class Acao
     {
         [Key]

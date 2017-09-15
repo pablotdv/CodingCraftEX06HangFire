@@ -1,5 +1,6 @@
 ﻿using EntityFramework.Triggers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,6 +33,8 @@ namespace CodingCraftEX06HangFire.Models
 
         [ForeignKey(nameof(AcaoId))]
         public virtual Acao Acao { get; set; }
+
+        public virtual ICollection<UsuarioAcaoHistorico> UsuariosAcoesHistoricos { get; set; }
 
         static AcaoHistorico()
         {

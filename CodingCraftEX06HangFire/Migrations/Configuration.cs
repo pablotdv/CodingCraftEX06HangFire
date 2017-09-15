@@ -89,6 +89,8 @@ namespace CodingCraftEX06HangFire.Migrations
 
                 var acoes = context.Acoes.OrderBy(a => Guid.NewGuid()).Take(10);
 
+                var rd = new Random(Environment.TickCount);
+
                 foreach (var acao in acoes)
                 {
                     user.Ordens.Add(new Ordem()
@@ -97,10 +99,10 @@ namespace CodingCraftEX06HangFire.Migrations
                         DataHora = DateTime.Now,
                         AcaoId = acao.AcaoId,
                         Preco = acao.Preco,
-                        Quantidade = new Random(DateTime.Now.Millisecond).Next(1, 9),
+                        Quantidade = rd.Next(1, 9),
                         Tipo = Models.Enums.OrdemTipo.Compra,
+                        Ativo = true
                     });
-                    Thread.Sleep(1);
                 }
 
                 user.Saldo = user.Dinheiro - user.Ordens.Sum(a => a.Total);
@@ -112,8 +114,7 @@ namespace CodingCraftEX06HangFire.Migrations
         }
 
         private static Empresa Empresa(ApplicationDbContext context, string cnpj, string razaoSocial, string nomePregao, Dictionary<string, string> acoes)
-        {
-            Random rnd = new Random();
+        {            
             var empresa = new Models.Empresa
             {
                 EmpresaId = Guid.NewGuid(),
@@ -122,6 +123,7 @@ namespace CodingCraftEX06HangFire.Migrations
                 NomePregao = nomePregao,
                 Acoes = new List<Acao>()
             };
+            var rd = new Random(Environment.TickCount);
             foreach (var a in acoes)
             {
                 var acao = new Acao()
@@ -136,10 +138,9 @@ namespace CodingCraftEX06HangFire.Migrations
                 {
                     AcaoHistoricoId = Guid.NewGuid(),
                     DataHora = DateTime.Now,
-                    Preco = (decimal)new Random(DateTime.Now.Millisecond).Next(100, 9999) / 100
+                    Preco = (decimal)rd.Next(100, 9999) / 100
                 });
-                empresa.Acoes.Add(acao);
-                Thread.Sleep(1);
+                empresa.Acoes.Add(acao);                
             }
 
 

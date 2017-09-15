@@ -15,6 +15,12 @@ namespace CodingCraftEX06HangFire.Models
 
         public Guid UsuarioAcaoId { get; set; }
 
+        public Guid AcaoHistoricoId { get; set; }
+
+        [ForeignKey(nameof(UsuarioAcaoId))]
         public virtual UsuarioAcao UsuarioAcao { get; set; }
+
+        [ForeignKey(nameof(AcaoHistoricoId))]
+        public virtual AcaoHistorico AcaoHistorico { get; set; }
     }
 }

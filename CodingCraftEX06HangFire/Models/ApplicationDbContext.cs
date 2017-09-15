@@ -98,10 +98,16 @@ namespace CodingCraftEX06HangFire.Models
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<UsuarioAcao>()
+               .HasMany(e => e.UsuariosAcoesHistoricos)
+               .WithRequired(e => e.UsuarioAcao)
+               .HasForeignKey(e => e.UsuarioAcaoId)
+               .WillCascadeOnDelete(false);
+
             modelBuilder.Filter("UsuariosOrdens",
                 (Ordem o, Guid usuarioId) => o.UsuarioId == usuarioId,
                 () => Guid.Parse(HttpContext.Current.User.Identity.GetUserId()));
-            modelBuilder.EnableFilter("UsuariosOrdens", () => HttpContext.Current.User != null);            
+            modelBuilder.EnableFilter("UsuariosOrdens", () => HttpContext.Current?.User != null);            
         }
 
         public DbSet<Empresa> Empresas { get; set; }
@@ -110,7 +116,7 @@ namespace CodingCraftEX06HangFire.Models
 
         public DbSet<AcaoHistorico> AcoesHistoricos { get; set; }
 
-        public DbSet<Ordem> Ordems { get; set; }
+        public DbSet<Ordem> Ordens { get; set; }
 
         public DbSet<UsuarioAcao> UsuariosAcoes { get; set; }
 
