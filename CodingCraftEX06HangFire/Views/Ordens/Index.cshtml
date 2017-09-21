@@ -8,8 +8,7 @@
 
 <p>
     <div class="btn-group">
-        @Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "btn btn-default" })
-        @Html.ActionLink("Compra", "Create", routeValues: new { Tipo = CodingCraftEX06HangFire.Models.Enums.OrdemTipo.Compra }, htmlAttributes: new { @class = "btn btn-default" })
+        @Html.ActionLink("Compra", "Create", routeValues: new { Tipo = CodingCraftEX06HangFire.Models.Enums.OrdemTipo.Compra }, htmlAttributes: new { @class = "btn btn-default" })        
     </div>
 </p>
 @using (Html.BeginForm("Index", "Empresas", FormMethod.Get))
@@ -59,9 +58,11 @@
                 @Html.DisplayFor(modelItem => item.Quantidade)
             </td>
             <td>
+
                 @Html.ActionLink("Edit", "Edit", new { id = item.OrdemId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.OrdemId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.OrdemId })
+
             </td>
         </tr>
     }

@@ -31,7 +31,12 @@ namespace CodingCraftEX06HangFire.Models
             modelBuilder.Filter("UsuariosOrdens",
                 (Ordem o, Guid usuarioId) => o.UsuarioId == usuarioId,
                 () => Guid.Parse(HttpContext.Current.User.Identity.GetUserId()));
-            modelBuilder.EnableFilter("UsuariosOrdens", () => HttpContext.Current?.User != null);            
+            modelBuilder.EnableFilter("UsuariosOrdens", () => HttpContext.Current?.User != null);
+
+            modelBuilder.Filter("UsuariosAcoes",
+                (UsuarioAcao usuarioAcao, Guid usuarioId) => usuarioAcao.UsuarioId == usuarioId,
+                () => Guid.Parse(HttpContext.Current.User.Identity.GetUserId()));
+            modelBuilder.EnableFilter("UsuariosAcoes", () => HttpContext.Current?.User != null);
         }
 
 

@@ -22,6 +22,8 @@ namespace CodingCraftEX06HangFire.Models
 
         public decimal Total { get; set; }
 
+        public decimal Rentabilidade { get; set; }
+
         public bool Ativo { get; set; }
 
         public DateTime Compra { get; set; }

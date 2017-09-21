@@ -22,12 +22,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>                    
                     @if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("Administradores"))
                         {
+                            <li>@Html.ActionLink("HangFire", "Index", "HangFire")</li>
                             <li>@Html.ActionLink("Empresas", "Index", "Empresas")</li>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ações<b class="caret"></b></a>
@@ -38,6 +38,7 @@
                             </li>
                         }
                         <li>@Html.ActionLink("Ordens", "Index", "Ordens")</li>
+                        <li>@Html.ActionLink("Minhas ações", "Index", "UsuariosAcoes")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

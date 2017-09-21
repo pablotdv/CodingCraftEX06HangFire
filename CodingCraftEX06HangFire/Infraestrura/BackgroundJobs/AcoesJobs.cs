@@ -28,6 +28,27 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
             }
         }
 
+        private static async Task AcoesVendas(BaseContext db)
+        {
+            Random random = new Random(Environment.TickCount);
+            var percentual = random.Next(0, 100);
+
+            var vendas = await db.Ordens
+                .Where(a => a.Tipo == OrdemTipo.Venda)
+                .Where(a => db.UsuariosAcoes.Any(b => b.UsuarioId == a.UsuarioId && b.AcaoId == a.AcaoId && b.Ativo))
+                .Where(a => a.Chance >= percentual)
+                .ToListAsync();
+
+            foreach (var venda in vendas)
+            {
+                venda.Ativo = false;
+
+
+            }
+
+            await db.SaveChangesAsync();
+        }
+
         private static async Task AcoesCompras(BaseContext db)
         {
             Random random = new Random(Environment.TickCount);
@@ -69,7 +90,7 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
             {
                 decimal random = rd.Next(-9999, 9999);
                 decimal percentualVariacao = random / 1000;
-                var valorVariacao = (decimal)acao.Preco * (percentualVariacao / 100);
+                var valorVariacao = Math.Round((decimal)acao.Preco * (percentualVariacao / 100), 2);
                 var preco = acao.Preco + valorVariacao;
                 var historico = new AcaoHistorico()
                 {
@@ -89,6 +110,7 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
                         UsuarioAcaoHistoricoId = Guid.NewGuid(),
                         UsuarioAcaoId = usuarioAcao.UsuarioAcaoId
                     });
+                    usuarioAcao.Rentabilidade += historico.ValorVariacao * usuarioAcao.Quantidade;
                 }
                 acao.AcoesHistoricos.Add(historico);
 

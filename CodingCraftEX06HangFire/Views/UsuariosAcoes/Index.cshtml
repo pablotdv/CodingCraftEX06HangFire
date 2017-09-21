@@ -20,20 +20,29 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(_ => item.Rentabilidade)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UsuarioAcaoId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UsuarioAcaoId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UsuarioAcaoId })
+            </td>
+        </tr>
+    }
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UsuarioAcaoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UsuarioAcaoId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UsuarioAcaoId })
-        </td>
+        <td colspan="2"></td>
+        <td>@Model.Sum(a=>a.Rentabilidade).ToString("N2")</td>
+        <td></td>
     </tr>
-}
 
 </table>

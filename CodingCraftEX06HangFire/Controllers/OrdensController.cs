@@ -23,7 +23,9 @@ namespace CodingCraftEX06HangFire.Controllers
         // GET: Ordens
         public async Task<ActionResult> Index(OrdensViewModel viewModel)
         {
-            var query = db.Ordens.Include(o => o.Acao).Include(o => o.Usuario);
+            var query = db.Ordens
+                .Include(o => o.Acao)
+                .Where(a => a.Ativo);
 
             if (viewModel.Tipo.HasValue)
             {
@@ -51,12 +53,10 @@ namespace CodingCraftEX06HangFire.Controllers
         }
 
         // GET: Ordens/Create
-        public async Task<ActionResult> Create(OrdemTipo? tipo)
+        public async Task<ActionResult> Compra()
         {
             await AcoesViewBag();
-            Ordem model = null;
-            if (tipo.HasValue)
-                model = new Ordem() { Tipo = tipo.Value };
+            Ordem model = new Ordem() { Tipo = OrdemTipo.Compra };
             return View(model);
         }
 
@@ -73,7 +73,7 @@ namespace CodingCraftEX06HangFire.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "OrdemId,Tipo,Preco,Quantidade,AcaoId")] Ordem ordem)
+        public async Task<ActionResult> Compra([Bind(Include = "OrdemId,Tipo,Preco,Quantidade,AcaoId")] Ordem ordem)
         {
             if (ModelState.IsValid)
             {

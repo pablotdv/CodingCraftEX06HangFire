@@ -402,7 +402,7 @@
     <Content Include="Views\Empresas\Details.cshtml" />
     <Content Include="Views\Empresas\Edit.cshtml" />
     <Content Include="Views\Empresas\Index.cshtml" />
-    <Content Include="Views\Ordens\Create.cshtml" />
+    <Content Include="Views\Ordens\Compra.cshtml" />
     <Content Include="Views\Ordens\Delete.cshtml" />
     <Content Include="Views\Ordens\Details.cshtml" />
     <Content Include="Views\Ordens\Edit.cshtml" />
