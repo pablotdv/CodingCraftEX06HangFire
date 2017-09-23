@@ -7,21 +7,20 @@ using System.Web;
 
 namespace CodingCraftEX06HangFire.Models
 {
-    [Table("UsuariosAcoesHistoricos")]
-    public class UsuarioAcaoHistorico
+    [Table("OrdensUsuariosAcoes")]
+    public class OrdemUsuarioAcao
     {
         [Key]
-        public Guid UsuarioAcaoHistoricoId { get; set; }
+        public Guid OrdemUsuarioAcaoId { get; set; }
+
+        public Guid OrdemId { get; set; }
 
         public Guid UsuarioAcaoId { get; set; }
 
-        public Guid AcaoHistoricoId { get; set; }
+        [ForeignKey(nameof(OrdemId))]
+        public virtual Ordem Ordem { get; set; }
 
         [ForeignKey(nameof(UsuarioAcaoId))]
         public virtual UsuarioAcao UsuarioAcao { get; set; }
-
-        [ForeignKey(nameof(AcaoHistoricoId))]
-        public virtual AcaoHistorico AcaoHistorico { get; set; }
-        public decimal Rentabilidade { get; set; }
     }
 }

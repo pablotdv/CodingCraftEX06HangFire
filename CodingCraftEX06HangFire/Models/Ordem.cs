@@ -31,12 +31,16 @@ namespace CodingCraftEX06HangFire.Models
 
         [Required]
         public decimal Total { get; set; }
-        
+
         [Required]
         public Guid AcaoId { get; set; }
 
         [Required]
         public Guid UsuarioId { get; set; }
+
+        public bool Ativo { get; set; }
+
+        public decimal Chance { get; set; }
 
         [ForeignKey(nameof(AcaoId))]
         public virtual Acao Acao { get; set; }
@@ -44,19 +48,19 @@ namespace CodingCraftEX06HangFire.Models
         [ForeignKey(nameof(UsuarioId))]
         public virtual Usuario Usuario { get; set; }
 
-        public bool Ativo { get; set; }
-        public decimal Chance { get; set; }
+        [InverseProperty(nameof(OrdemUsuarioAcao.Ordem))]
+        public virtual ICollection<OrdemUsuarioAcao> OrdensUsuariosAcoes { get; set; }
 
         static Ordem()
         {
             Triggers<Ordem>.Inserting += action =>
             {
-                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;                
+                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;
             };
 
             Triggers<Ordem>.Updating += action =>
             {
-                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;                
+                action.Entity.Total = action.Entity.Preco * action.Entity.Quantidade;
             };
         }
     }

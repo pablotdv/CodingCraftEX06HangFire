@@ -80,6 +80,7 @@ namespace CodingCraftEX06HangFire.Controllers
                 ordem.OrdemId = Guid.NewGuid();
                 ordem.UsuarioId = Guid.Parse(User.Identity.GetUserId());
                 ordem.DataHora = DateTime.Now;
+                ordem.Ativo = true;
                 db.Ordens.Add(ordem);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

@@ -1,0 +1,92 @@
+﻿@model CodingCraftEX06HangFire.ViewModels.VendaViewModel
+
+@{
+    ViewBag.Title = "Venda";
+}
+
+<h2>Venda</h2>
+
+
+<div class="form-horizontal">
+    <h4>Venda</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Acao.CodigoNegociacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acao.CodigoNegociacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Acao.Preco)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Acao.Preco)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioAcao.Quantidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioAcao.Quantidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioAcao.Rentabilidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioAcao.Rentabilidade)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(a => a.Acao.AcaoId)
+        @Html.HiddenFor(a => a.Acao.CodigoNegociacao)
+        @Html.HiddenFor(a => a.Acao.Preco)
+        @Html.HiddenFor(a => a.UsuarioAcao.UsuarioAcaoId)
+        @Html.HiddenFor(a => a.UsuarioAcao.Quantidade)
+        @Html.HiddenFor(a => a.UsuarioAcao.Rentabilidade)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantidade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantidade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantidade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Preco, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Preco, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Preco, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    }
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

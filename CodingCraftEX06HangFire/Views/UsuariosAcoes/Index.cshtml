@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CodingCraftEX06HangFire.Models.UsuarioAcao>
+﻿@model CodingCraftEX06HangFire.ViewModels.UsuariosAcoesViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,43 +6,46 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<table class="table table-bordered table-responsive table-striped table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Acao.CodigoNegociacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.Email)
-        </th>
+        <th>Ação</th>
+        <th>Quantidade</th>        
+        <th>Atual</th>
+        <th>Compra</th>    
+        <th>Rentabilidade</th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Resultados)
     {
         <tr>
+            <td>@Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)</td>
+            <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>            
+            <td>@Html.DisplayFor(modelItem => item.Acao.Preco)</td>
+            <td>@Html.DisplayFor(modelItem => item.Preco)</td>     
+            <td>@Html.DisplayFor(modelItem => item.Rentabilidade)</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(_ => item.Rentabilidade)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.UsuarioAcaoId }) |
                 @Html.ActionLink("Details", "Details", new { id = item.UsuarioAcaoId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.UsuarioAcaoId })
+                @Html.ActionLink("Venda", "Venda", new { id = item.UsuarioAcaoId }) |
+                @Html.ActionLink("Start", "Venda", new { id = item.UsuarioAcaoId }) |
+                @Html.ActionLink("Stop", "Venda", new { id = item.UsuarioAcaoId })
             </td>
         </tr>
     }
     <tr>
-        <td colspan="2"></td>
-        <td>@Model.Sum(a=>a.Rentabilidade).ToString("N2")</td>
+        <td></td>
+        <td></td>        
+        <td></td>
+        <td></td>
+        <td>@Model.Rentabilidade.ToString("N2")</td>
         <td></td>
     </tr>
 
 </table>
+
+@Html.PagedListPager(Model.Resultados, page => Url.Action("Index",
+    new CodingCraftEX06HangFire.ViewModels.UsuariosAcoesViewModel()
+    {
+        Pagina = page,
+    }),
+    PagedListRenderOptions.Classic)

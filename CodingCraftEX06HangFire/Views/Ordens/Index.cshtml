@@ -8,10 +8,10 @@
 
 <p>
     <div class="btn-group">
-        @Html.ActionLink("Compra", "Create", routeValues: new { Tipo = CodingCraftEX06HangFire.Models.Enums.OrdemTipo.Compra }, htmlAttributes: new { @class = "btn btn-default" })        
+        @Html.ActionLink("Compra", "Compra", null, htmlAttributes: new { @class = "btn btn-default" })
     </div>
 </p>
-@using (Html.BeginForm("Index", "Empresas", FormMethod.Get))
+@using (Html.BeginForm("Index", "Ordens", FormMethod.Get))
 {
     <div class="form-horizontal">
         <h4>Filtros</h4>

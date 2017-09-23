@@ -264,6 +264,7 @@
     <Compile Include="Models\Enums\OrdemTipo.cs" />
     <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Ordem.cs" />
+    <Compile Include="Models\OrdemUsuarioAcao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\UsuarioAcao.cs" />
     <Compile Include="Models\UsuarioAcaoHistorico.cs" />
@@ -311,6 +312,8 @@
     <Compile Include="ViewModels\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="ViewModels\OrdensViewModel.cs" />
     <Compile Include="ViewModels\PagedListViewModel.cs" />
+    <Compile Include="ViewModels\UsuariosAcoesViewModel.cs" />
+    <Compile Include="ViewModels\VendaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -418,6 +421,7 @@
     <Content Include="Views\UsuariosAcoesHistoricos\Edit.cshtml" />
     <Content Include="Views\UsuariosAcoesHistoricos\Index.cshtml" />
     <Content Include="Views\Acoes\Importar.cshtml" />
+    <Content Include="Views\UsuariosAcoes\Venda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

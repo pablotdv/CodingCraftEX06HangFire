@@ -8,6 +8,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CodingCraftEX06HangFire.Models;
+using CodingCraftEX06HangFire.ViewModels;
+using PagedList.EntityFramework;
+using CodingCraftEX06HangFire.Models.Enums;
+using Microsoft.AspNet.Identity;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
@@ -17,10 +21,15 @@ namespace CodingCraftEX06HangFire.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: UsuariosAcoes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(UsuariosAcoesViewModel viewModel)
         {
-            var usuarioAcaos = db.UsuariosAcoes.Include(u => u.Acao).Include(u => u.Usuario);
-            return View(await usuarioAcaos.ToListAsync());
+            var query = db.UsuariosAcoes
+                .Where(a => a.Ativo);
+
+            viewModel.Rentabilidade = await query.SumAsync(a => a.Rentabilidade);
+            viewModel.Resultados = await query.OrderBy(a => a.Acao.CodigoNegociacao).ToPagedListAsync(viewModel.Pagina, viewModel.TamanhoPagina);
+
+            return View(viewModel);
         }
 
         // GET: UsuariosAcoes/Details/5
@@ -99,6 +108,71 @@ namespace CodingCraftEX06HangFire.Controllers
             ViewBag.AcaoId = new SelectList(db.Acoes, "AcaoId", "CodigoNegociacao", usuarioAcao.AcaoId);
             ViewBag.UsuarioId = new SelectList(db.Users, "Id", "Email", usuarioAcao.UsuarioId);
             return View(usuarioAcao);
+        }
+
+        // GET: UsuariosAcoes/Venda/5
+        public async Task<ActionResult> Venda(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            UsuarioAcao usuarioAcao = await db.UsuariosAcoes.FindAsync(id);
+
+            if (usuarioAcao == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(new VendaViewModel()
+            {
+                Acao = usuarioAcao.Acao,
+                UsuarioAcao = usuarioAcao
+            });
+
+        }
+
+        // POST: UsuariosAcoes/Venda/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Venda(VendaViewModel viewModel)
+        {
+            var keys = ModelState.Keys.Where(a => a.Contains("Acao.") || a.Contains("UsuarioAcao.")).ToList();
+            foreach (var key in keys)
+            {
+                ModelState.Remove(key);
+            }
+
+            if (ModelState.IsValid)
+            {
+                var usuarioAcao = await db.UsuariosAcoes.Include(a => a.OrdensUsuariosAcoes)
+                    .FirstOrDefaultAsync(a => a.UsuarioAcaoId == viewModel.UsuarioAcao.UsuarioAcaoId);
+
+                usuarioAcao.OrdensUsuariosAcoes.Add(new OrdemUsuarioAcao
+                {
+                    OrdemUsuarioAcaoId = Guid.NewGuid(),
+                    Ordem = new Ordem
+                    {
+                        OrdemId = Guid.NewGuid(),
+                        AcaoId = viewModel.Acao.AcaoId,
+                        Ativo = true,
+                        Chance = 0,
+                        DataHora = DateTime.Now,
+                        Preco = viewModel.Preco,
+                        Quantidade = viewModel.Quantidade,
+                        Tipo = OrdemTipo.Venda,
+                        UsuarioId = Guid.Parse(User.Identity.GetUserId()),
+                    }
+                });
+
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
         }
 
         // GET: UsuariosAcoes/Delete/5

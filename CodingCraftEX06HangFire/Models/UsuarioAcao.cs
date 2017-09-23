@@ -38,6 +38,10 @@ namespace CodingCraftEX06HangFire.Models
 
         [InverseProperty(nameof(UsuarioAcaoHistorico.UsuarioAcao))]
         public ICollection<UsuarioAcaoHistorico> UsuariosAcoesHistoricos { get; set; }
-        
+
+        [InverseProperty(nameof(OrdemUsuarioAcao.UsuarioAcao))]
+        public ICollection<OrdemUsuarioAcao> OrdensUsuariosAcoes { get; set; }
+
+
     }
 }

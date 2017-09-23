@@ -28,6 +28,18 @@ namespace CodingCraftEX06HangFire.Models
                .HasForeignKey(e => e.UsuarioAcaoId)
                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Ordem>()
+               .HasMany(e => e.OrdensUsuariosAcoes)
+               .WithRequired(e => e.Ordem)
+               .HasForeignKey(e => e.OrdemId)
+               .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UsuarioAcao>()
+               .HasMany(e => e.OrdensUsuariosAcoes)
+               .WithRequired(e => e.UsuarioAcao)
+               .HasForeignKey(e => e.UsuarioAcaoId)
+               .WillCascadeOnDelete(false);
+
             modelBuilder.Filter("UsuariosOrdens",
                 (Ordem o, Guid usuarioId) => o.UsuarioId == usuarioId,
                 () => Guid.Parse(HttpContext.Current.User.Identity.GetUserId()));
