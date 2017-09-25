@@ -37,25 +37,30 @@
     <tr>
         <th>Ação</th>
         <th>Operação</th>
-        <th>Preço R$</th>
         <th>Quantidade</th>
+        <th>Compra R$</th>
+        <th>Atual R$</th>
+        <th>Rentabilidade</th>
         <th></th>
     </tr>
 
     @foreach (var item in Model.Resultados)
     {
         <tr>
+            <td>@Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)</td>
+            <td>@Html.DisplayFor(modelItem => item.Tipo)</td>
+            <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
+            <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+            <td>@Html.DisplayFor(modelItem => item.Acao.Preco)</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Preco)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantidade)
+                @if (!item.OrdensUsuariosAcoes.Any())
+                {
+                    <span>-</span>
+                }
+                else
+                {
+                    @item.OrdensUsuariosAcoes.Sum(a => a.UsuarioAcao.Rentabilidade).ToString("N2")
+                }
             </td>
             <td>
 

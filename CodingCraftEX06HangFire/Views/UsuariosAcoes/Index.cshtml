@@ -9,9 +9,9 @@
 <table class="table table-bordered table-responsive table-striped table-hover">
     <tr>
         <th>Ação</th>
-        <th>Quantidade</th>        
-        <th>Atual</th>
+        <th>Quantidade</th>                
         <th>Compra</th>    
+        <th>Atual</th>
         <th>Rentabilidade</th>
         <th></th>
     </tr>
@@ -20,9 +20,9 @@
     {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.Acao.CodigoNegociacao)</td>
-            <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>            
-            <td>@Html.DisplayFor(modelItem => item.Acao.Preco)</td>
+            <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>                        
             <td>@Html.DisplayFor(modelItem => item.Preco)</td>     
+            <td>@Html.DisplayFor(modelItem => item.Acao.Preco)</td>
             <td>@Html.DisplayFor(modelItem => item.Rentabilidade)</td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.UsuarioAcaoId }) |

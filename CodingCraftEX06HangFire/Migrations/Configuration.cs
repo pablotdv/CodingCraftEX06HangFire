@@ -87,26 +87,6 @@ namespace CodingCraftEX06HangFire.Migrations
                 var manager = new UserManager<Usuario, Guid>(store);
                 var user = new Usuario { Id = Guid.NewGuid(), UserName = userName, Email = userName, EmailConfirmed = true, Dinheiro = 1000, Saldo = 1000, Ordens = new List<Ordem>() };
 
-                var acoes = context.Acoes.OrderBy(a => Guid.NewGuid()).Take(10);
-
-                var rd = new Random(Environment.TickCount);
-
-                foreach (var acao in acoes)
-                {
-                    user.Ordens.Add(new Ordem()
-                    {
-                        OrdemId = Guid.NewGuid(),
-                        DataHora = DateTime.Now,
-                        AcaoId = acao.AcaoId,
-                        Preco = acao.Preco,
-                        Quantidade = rd.Next(1, 9),
-                        Tipo = Models.Enums.OrdemTipo.Compra,
-                        Ativo = true
-                    });
-                }
-
-                user.Saldo = user.Dinheiro - user.Ordens.Sum(a => a.Total);
-
                 manager.Create(user, senha);
                 if (!string.IsNullOrWhiteSpace(role))
                     manager.AddToRole(user.Id, role);
@@ -138,7 +118,7 @@ namespace CodingCraftEX06HangFire.Migrations
                 {
                     AcaoHistoricoId = Guid.NewGuid(),
                     DataHora = DateTime.Now,
-                    Preco = (decimal)rd.Next(100, 9999) / 100
+                    Preco = (decimal)rd.Next(10000, 999999) / 10000
                 });
                 empresa.Acoes.Add(acao);                
             }

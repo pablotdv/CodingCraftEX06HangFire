@@ -25,9 +25,10 @@ namespace CodingCraftEX06HangFire
             app.UseHangfireDashboard("/HangFire", options);
             app.UseHangfireServer();
 
-            Hangfire.BackgroundJob.Enqueue(() => AcoesJobs.MecanicaJob());
-            RecurringJob.RemoveIfExists("acoes-mecanica");           
-            
+            //Hangfire.BackgroundJob.Enqueue(() => AcoesJobs.MecanicaJob());
+            //RecurringJob.RemoveIfExists("acoes-mecanica");           
+            RecurringJob.AddOrUpdate("acoes-mecanica", () => AcoesJobs.MecanicaJob(), Cron.MinuteInterval(5));
+
         }
     }
 }

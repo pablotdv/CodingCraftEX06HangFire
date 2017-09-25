@@ -12,6 +12,7 @@ using CodingCraftEX06HangFire.ViewModels;
 using PagedList.EntityFramework;
 using CodingCraftEX06HangFire.Models.Enums;
 using Microsoft.AspNet.Identity;
+using CodingCraftEX06HangFire.Infraestrura;
 
 namespace CodingCraftEX06HangFire.Controllers
 {
@@ -25,7 +26,7 @@ namespace CodingCraftEX06HangFire.Controllers
         {
             var query = db.Ordens
                 .Include(o => o.Acao)
-                .Where(a => a.Ativo);
+                .Include(o => o.OrdensUsuariosAcoes);
 
             if (viewModel.Tipo.HasValue)
             {
@@ -77,10 +78,38 @@ namespace CodingCraftEX06HangFire.Controllers
         {
             if (ModelState.IsValid)
             {
+                var rd = new Random((int)DateTime.Now.Ticks);
+                var acao = await db.Acoes.FindAsync(ordem.AcaoId);
+
                 ordem.OrdemId = Guid.NewGuid();
                 ordem.UsuarioId = Guid.Parse(User.Identity.GetUserId());
                 ordem.DataHora = DateTime.Now;
-                ordem.Ativo = true;
+                ordem.Chance = OrdensChances.Compra(acao.Preco, ordem.Preco);
+
+                var percentual = rd.Next(0, 1000000) / 10000;
+                if (ordem.Chance >= percentual)
+                {
+                    db.UsuariosAcoes.Add(new UsuarioAcao()
+                    {
+                        UsuarioAcaoId = Guid.NewGuid(),
+                        AcaoId = ordem.AcaoId,
+                        Ativo = true,
+                        Compra = DateTime.Now,
+                        Preco = ordem.Preco,
+                        UsuarioId = ordem.UsuarioId,
+                        Quantidade = ordem.Quantidade,
+                        Total = ordem.Preco * ordem.Quantidade,
+                        OrdensUsuariosAcoes = new List<OrdemUsuarioAcao>()
+                        {
+                            new OrdemUsuarioAcao
+                            {
+                                OrdemUsuarioAcaoId = Guid.NewGuid(),
+                                OrdemId = ordem.OrdemId
+                            }
+                        }
+                    });
+                }
+
                 db.Ordens.Add(ordem);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

@@ -157,8 +157,7 @@ namespace CodingCraftEX06HangFire.Controllers
                     Ordem = new Ordem
                     {
                         OrdemId = Guid.NewGuid(),
-                        AcaoId = viewModel.Acao.AcaoId,
-                        Ativo = true,
+                        AcaoId = viewModel.Acao.AcaoId,                        
                         Chance = 0,
                         DataHora = DateTime.Now,
                         Preco = viewModel.Preco,

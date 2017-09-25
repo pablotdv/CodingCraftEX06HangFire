@@ -37,9 +37,7 @@ namespace CodingCraftEX06HangFire.Models
 
         [Required]
         public Guid UsuarioId { get; set; }
-
-        public bool Ativo { get; set; }
-
+        
         public decimal Chance { get; set; }
 
         [ForeignKey(nameof(AcaoId))]

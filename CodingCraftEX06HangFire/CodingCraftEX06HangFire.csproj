@@ -49,8 +49,8 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="CoContra, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CoContra.1.1.0\lib\net461\CoContra.dll</HintPath>
+    <Reference Include="CoContra.net45, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoContra.1.0.2\lib\net45\CoContra.net45.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.DynamicFilters, Version=2.10.0.0, Culture=neutral, PublicKeyToken=146423a1b8d60775, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.DynamicFilters.2.10.0\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
@@ -253,6 +253,7 @@
     <Compile Include="Infraestrura\Bovespa\MoneyConverter.cs" />
     <Compile Include="Infraestrura\Filtros\HangFireAuthorizationFilter.cs" />
     <Compile Include="Infraestrura\ModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="Infraestrura\OrdensChances.cs" />
     <Compile Include="Managers\ApplicationRoleManager.cs" />
     <Compile Include="Managers\ApplicationSignInManager.cs" />
     <Compile Include="Managers\ApplicationUserManager.cs" />
