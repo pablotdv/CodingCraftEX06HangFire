@@ -40,6 +40,8 @@ namespace CodingCraftEX06HangFire.Models
         
         public decimal Chance { get; set; }
 
+        public decimal? Rentabilidade { get; set; }
+
         [ForeignKey(nameof(AcaoId))]
         public virtual Acao Acao { get; set; }
 
@@ -48,6 +50,7 @@ namespace CodingCraftEX06HangFire.Models
 
         [InverseProperty(nameof(OrdemUsuarioAcao.Ordem))]
         public virtual ICollection<OrdemUsuarioAcao> OrdensUsuariosAcoes { get; set; }
+        
 
         static Ordem()
         {

@@ -86,7 +86,7 @@ namespace CodingCraftEX06HangFire.Controllers
                 ordem.DataHora = DateTime.Now;
                 ordem.Chance = OrdensChances.Compra(acao.Preco, ordem.Preco);
 
-                var percentual = rd.Next(0, 1000000) / 10000;
+                var percentual = (decimal)rd.NextDouble() * 100;
                 if (ordem.Chance >= percentual)
                 {
                     db.UsuariosAcoes.Add(new UsuarioAcao()

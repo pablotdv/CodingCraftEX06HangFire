@@ -33,9 +33,7 @@ namespace CodingCraftEX06HangFire.Models
 
         [ForeignKey(nameof(AcaoId))]
         public virtual Acao Acao { get; set; }
-
-        public virtual ICollection<UsuarioAcaoHistorico> UsuariosAcoesHistoricos { get; set; }
-
+        
         static AcaoHistorico()
         {
             Triggers<AcaoHistorico>.Inserting += action =>

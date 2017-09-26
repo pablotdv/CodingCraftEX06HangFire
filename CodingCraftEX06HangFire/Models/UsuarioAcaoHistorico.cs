@@ -14,14 +14,22 @@ namespace CodingCraftEX06HangFire.Models
         public Guid UsuarioAcaoHistoricoId { get; set; }
 
         public Guid UsuarioAcaoId { get; set; }
-
-        public Guid AcaoHistoricoId { get; set; }
-
+        
         [ForeignKey(nameof(UsuarioAcaoId))]
         public virtual UsuarioAcao UsuarioAcao { get; set; }
 
-        [ForeignKey(nameof(AcaoHistoricoId))]
-        public virtual AcaoHistorico AcaoHistorico { get; set; }
+        [Required]
+        [Display(Name = "Preço da ação R$")]
+        public decimal Preco { get; set; }
+
+        [Required]
+        [Display(Name = "Variação R$")]
+        public decimal ValorVariacao { get; set; }
+
+        [Required]
+        [Display(Name = "% Variação")]
+        public decimal PercentualVariacao { get; set; }
+
         public decimal Rentabilidade { get; set; }
     }
 }

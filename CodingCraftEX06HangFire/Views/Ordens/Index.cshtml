@@ -53,13 +53,20 @@
             <td>@Html.DisplayFor(modelItem => item.Preco)</td>
             <td>@Html.DisplayFor(modelItem => item.Acao.Preco)</td>
             <td>
-                @if (!item.OrdensUsuariosAcoes.Any())
+                @if (item.Rentabilidade.HasValue)
                 {
-                    <span>-</span>
+                    @Html.DisplayFor(a => item.Rentabilidade)
                 }
                 else
                 {
-                    @item.OrdensUsuariosAcoes.Sum(a => a.UsuarioAcao.Rentabilidade).ToString("N2")
+                    if (!item.OrdensUsuariosAcoes.Any())
+                    {
+                        <span>-</span>
+                    }
+                    else
+                    {
+                        @item.OrdensUsuariosAcoes.Sum(a => a.UsuarioAcao.Rentabilidade).ToString("N2")
+                    }
                 }
             </td>
             <td>

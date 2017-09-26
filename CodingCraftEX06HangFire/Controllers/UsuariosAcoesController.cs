@@ -148,26 +148,49 @@ namespace CodingCraftEX06HangFire.Controllers
 
             if (ModelState.IsValid)
             {
+                var rd = new Random((int)DateTime.Now.Ticks);
+
                 var usuarioAcao = await db.UsuariosAcoes.Include(a => a.OrdensUsuariosAcoes)
+                    .Include(a => a.UsuariosAcoesHistoricos)
                     .FirstOrDefaultAsync(a => a.UsuarioAcaoId == viewModel.UsuarioAcao.UsuarioAcaoId);
 
-                usuarioAcao.OrdensUsuariosAcoes.Add(new OrdemUsuarioAcao
+                var ordemUsuarioAcao = new OrdemUsuarioAcao
                 {
                     OrdemUsuarioAcaoId = Guid.NewGuid(),
                     Ordem = new Ordem
                     {
                         OrdemId = Guid.NewGuid(),
-                        AcaoId = viewModel.Acao.AcaoId,                        
-                        Chance = 0,
+                        AcaoId = viewModel.Acao.AcaoId,
+                        Chance = Infraestrura.OrdensChances.Venda(viewModel.Acao.Preco, viewModel.Preco),
                         DataHora = DateTime.Now,
                         Preco = viewModel.Preco,
                         Quantidade = viewModel.Quantidade,
                         Tipo = OrdemTipo.Venda,
                         UsuarioId = Guid.Parse(User.Identity.GetUserId()),
                     }
-                });
+                };
 
-                await db.SaveChangesAsync();
+                var percentual = (decimal)rd.NextDouble() * 100;
+                if (ordemUsuarioAcao.Ordem.Chance >= percentual)
+                {
+                    var historico = new UsuarioAcaoHistorico()
+                    {
+                        UsuarioAcaoHistoricoId = Guid.NewGuid(),
+                        Preco = viewModel.Preco,
+                        PercentualVariacao = viewModel.Preco * 100 / viewModel.Acao.Preco - 100,
+                        ValorVariacao = viewModel.Preco - viewModel.Acao.Preco,
+                        Rentabilidade = (viewModel.Preco - viewModel.Acao.Preco) * viewModel.Quantidade
+                    };
+                    usuarioAcao.Quantidade -= viewModel.Quantidade;
+                    usuarioAcao.Ativo = usuarioAcao.Quantidade > 0;
+                    usuarioAcao.UsuariosAcoesHistoricos.Add(historico);
+                    ordemUsuarioAcao.Ordem.Rentabilidade = historico.Rentabilidade;
+                    usuarioAcao.OrdensUsuariosAcoes.Add(ordemUsuarioAcao);
+
+                    await db.SaveChangesAsync();
+                }
+
+
                 return RedirectToAction("Index");
             }
 

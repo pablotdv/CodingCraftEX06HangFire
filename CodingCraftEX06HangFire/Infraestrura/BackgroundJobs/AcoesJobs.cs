@@ -47,8 +47,7 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
                     PercentualVariacao = percentualVariacao,
                     Preco = preco,
                     ValorVariacao = valorVariacao,
-                    AcaoId = acao.AcaoId,
-                    UsuariosAcoesHistoricos = new List<UsuarioAcaoHistorico>()
+                    AcaoId = acao.AcaoId,                    
                 };
 
                 var usuariosAcoes = await db.UsuariosAcoes                    
@@ -58,10 +57,12 @@ namespace CodingCraftEX06HangFire.Infraestrura.BackgroundJobs
                 {
                     db.UsuariosAcoesHistoricos.Add(new UsuarioAcaoHistorico()
                     {
-                        UsuarioAcaoHistoricoId = Guid.NewGuid(),
-                        AcaoHistoricoId = historico.AcaoHistoricoId,
+                        UsuarioAcaoHistoricoId = Guid.NewGuid(),                        
                         UsuarioAcaoId = usuarioAcao.UsuarioAcaoId,
-                        Rentabilidade = (historico.Preco - usuarioAcao.Preco) * usuarioAcao.Quantidade
+                        Rentabilidade = (historico.Preco - usuarioAcao.Preco) * usuarioAcao.Quantidade,
+                        PercentualVariacao = percentualVariacao,
+                        Preco = historico.Preco,
+                        ValorVariacao = historico.ValorVariacao,
                     });
                     usuarioAcao.Rentabilidade = (historico.Preco - usuarioAcao.Preco) * usuarioAcao.Quantidade;
                 }

@@ -50,10 +50,7 @@ namespace CodingCraftEX06HangFire.Controllers
             return View(acao);
         }
 
-        public ActionResult Importar()
-        {
-            return View();
-        }
+        public ActionResult Importar() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -65,9 +62,11 @@ namespace CodingCraftEX06HangFire.Controllers
             {
                 using (TextReader textReader = new StreamReader(viewModel.Arquivo.InputStream))
                 {
-                    var motor = new MultiRecordEngine(typeof(ViewModels.Bovespa.Header), typeof(ViewModels.Bovespa.Detail), typeof(ViewModels.Bovespa.Trailer));
-                    motor.ErrorMode = ErrorMode.SaveAndContinue;
-                    motor.RecordSelector = new RecordTypeSelector(Infraestrura.Bovespa.BovespaSelector.Selector);
+                    var motor = new MultiRecordEngine(typeof(ViewModels.Bovespa.Header), typeof(ViewModels.Bovespa.Detail), typeof(ViewModels.Bovespa.Trailer))
+                    {
+                        ErrorMode = ErrorMode.SaveAndContinue,
+                        RecordSelector = new RecordTypeSelector(Infraestrura.Bovespa.BovespaSelector.Selector)
+                    };
                     var registros = motor.ReadStream(textReader);
 
                     foreach (var erro in motor.ErrorManager.Errors)
